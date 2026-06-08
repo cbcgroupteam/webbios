@@ -72,7 +72,9 @@ export const UpdatesPage = () => {
                 clearInterval(checkInterval);
                 setUpdateStatus(mapped.label);
                 setUpdateProgress(100);
-                setTimeout(() => window.location.reload(), 2000);
+                setTimeout(() => {
+                  window.location.href = window.location.pathname + '?v=' + Date.now();
+                }, 2000);
               } else if (jobData.job.status === 'failed') {
                 clearInterval(checkInterval);
                 setUpdateStatus('Lỗi: ' + (jobData.job.errorMessage || 'Cập nhật thất bại'));
