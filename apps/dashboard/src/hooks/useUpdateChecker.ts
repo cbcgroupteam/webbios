@@ -11,20 +11,25 @@ export function useUpdateChecker() {
   useEffect(() => {
     const checkUpdate = async () => {
       try {
+        // Call Platform API (Current version can be retrieved from package.json or config in a real app)
+        const currentVersion = import.meta.env.VITE_APP_VERSION || '1.0.0';
+
         // Check cache first
         const cached = localStorage.getItem(CACHE_KEY);
         if (cached) {
           const parsed = JSON.parse(cached);
           if (Date.now() - parsed.timestamp < CHECK_INTERVAL) {
+            if (parsed.latestVersion === currentVersion) {
+              setHasUpdate(false);
+              setLatestVersion(currentVersion);
+              return;
+            }
             setHasUpdate(parsed.hasUpdate);
             setLatestVersion(parsed.latestVersion);
             setReleaseNotes(parsed.releaseNotes || '');
             return;
           }
         }
-
-        // Call Platform API (Current version can be retrieved from package.json or config in a real app)
-        const currentVersion = import.meta.env.VITE_APP_VERSION || '1.0.0';
         const platformUrl = import.meta.env.VITE_PLATFORM_API_URL || 'https://platform.webbios.dev/api';
 
         const response = await fetch(`${platformUrl}/v1/versions/latest?current_version=${currentVersion}`);

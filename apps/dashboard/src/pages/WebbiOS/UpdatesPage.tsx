@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { DownloadCloud, RefreshCw, CheckCircle, AlertTriangle } from 'lucide-react';
 import { useUpdateChecker } from '../../hooks/useUpdateChecker';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,50 @@ export const UpdatesPage = () => {
   const [updateProgress, setUpdateProgress] = useState(0);
 
   const currentVersion = import.meta.env.VITE_APP_VERSION || '1.0.0';
+
+  const startPolling = useCallback((jobId: string) => {
+    const checkInterval = setInterval(async () => {
+      try {
+        const jobRes = await fetch(`https://platform.webbios.dev/api/v1/platform/jobs/${jobId}?t=${Date.now()}`, {
+          cache: 'no-store'
+        });
+        const jobData = await jobRes.json();
+        if (jobData.success && jobData.job) {
+          const mapped = mapStatusToProgress(jobData.job.status);
+
+          if (jobData.job.status === 'success') {
+            clearInterval(checkInterval);
+            localStorage.removeItem('webbios_active_update_job');
+            localStorage.removeItem('webbios_update_status');
+            setUpdateStatus(mapped.label);
+            setUpdateProgress(100);
+            setTimeout(() => {
+              window.location.href = window.location.pathname + '?v=' + Date.now();
+            }, 2000);
+          } else if (jobData.job.status === 'failed') {
+            clearInterval(checkInterval);
+            localStorage.removeItem('webbios_active_update_job');
+            setUpdateStatus('Lỗi: ' + (jobData.job.errorMessage || 'Cập nhật thất bại'));
+            setUpdateProgress(0);
+            setIsUpdating(false);
+          } else {
+            setUpdateStatus(mapped.label);
+            setUpdateProgress(mapped.progress);
+          }
+        }
+      } catch (e) { }
+    }, 3000);
+  }, []);
+
+  useEffect(() => {
+    const savedJobId = localStorage.getItem('webbios_active_update_job');
+    if (savedJobId) {
+      setIsUpdating(true);
+      setUpdateStatus('Đang khôi phục tiến trình...');
+      setUpdateProgress(10);
+      startPolling(savedJobId);
+    }
+  }, [startPolling]);
 
   const mapStatusToProgress = (status: string): { label: string; progress: number } => {
     switch (status) {
@@ -57,40 +101,18 @@ export const UpdatesPage = () => {
       setUpdateStatus('Đang cập nhật...');
       setUpdateProgress(5);
 
-      const jobId = (res as any).jobId;
+      const jobId = (res as { jobId?: string }).jobId;
       if (jobId) {
-        const checkInterval = setInterval(async () => {
-          try {
-            const jobRes = await fetch(`https://platform.webbios.dev/api/v1/platform/jobs/${jobId}?t=${Date.now()}`, {
-              cache: 'no-store'
-            });
-            const jobData = await jobRes.json();
-            if (jobData.success && jobData.job) {
-              const mapped = mapStatusToProgress(jobData.job.status);
-
-              if (jobData.job.status === 'success') {
-                clearInterval(checkInterval);
-                setUpdateStatus(mapped.label);
-                setUpdateProgress(100);
-                setTimeout(() => {
-                  window.location.href = window.location.pathname + '?v=' + Date.now();
-                }, 2000);
-              } else if (jobData.job.status === 'failed') {
-                clearInterval(checkInterval);
-                setUpdateStatus('Lỗi: ' + (jobData.job.errorMessage || 'Cập nhật thất bại'));
-                setUpdateProgress(0);
-                setIsUpdating(false);
-              } else {
-                setUpdateStatus(mapped.label);
-                setUpdateProgress(mapped.progress);
-              }
-            }
-          } catch (e) { }
-        }, 3000);
+        localStorage.setItem('webbios_active_update_job', jobId);
+        startPolling(jobId);
       }
 
-    } catch (error: any) {
-      setUpdateStatus('Lỗi: ' + error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setUpdateStatus('Lỗi: ' + error.message);
+      } else {
+        setUpdateStatus('Lỗi: Cập nhật thất bại');
+      }
       setTimeout(() => setIsUpdating(false), 3000);
     }
   };
