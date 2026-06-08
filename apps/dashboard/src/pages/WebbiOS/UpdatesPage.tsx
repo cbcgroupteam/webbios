@@ -10,7 +10,7 @@ export const UpdatesPage = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [updateStatus, setUpdateStatus] = useState<string | null>(null);
   const [updateProgress, setUpdateProgress] = useState(0);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const currentVersion = import.meta.env.VITE_APP_VERSION || '1.0.0';
 
