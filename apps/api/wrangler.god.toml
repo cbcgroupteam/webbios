@@ -1,9 +1,0 @@
-name = "webbios-api-god"
-main = "src/index.ts"
-compatibility_date = "2024-03-20"
-account_id = "758fa917167175fd22e07a08e402a0c0"
-
-[[d1_databases]]
-binding = "DB"
-database_name = "webbios_platform"
-database_id = "67ce38f5-d6ac-470d-8de1-c126338ad6d1"
