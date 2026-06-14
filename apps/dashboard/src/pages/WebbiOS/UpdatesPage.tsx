@@ -89,7 +89,9 @@ export const UpdatesPage = () => {
       let shopId = '';
       if (projectDomain.startsWith('webbios-dashboard-')) {
         shopId = projectDomain.replace('webbios-dashboard-', '');
-      } else if (hostname === 'admin.webbios.dev' || hostname === 'localhost') {
+      } else if (projectDomain === 'webbios-dashboard') {
+        shopId = 'WBSHOP9050';
+      } else if (hostname === 'admin.webbios.dev' || hostname === 'localhost' || hostname === '127.0.0.1') {
         shopId = 'WBSHOP9050';
       }
 

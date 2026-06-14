@@ -1,0 +1,25 @@
+{
+  "name": "webbios-storefront-engine",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -i ../../packages/storefront-ui/src/styles/base.css -o ./public/styles.css",
+    "dev": "npm run build:css && wrangler dev",
+    "deploy": "npm run build:css && wrangler deploy"
+  },
+  "dependencies": {
+    "hono": "^4.3.7",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "@webbios/storefront-ui": "workspace:*",
+    "@webbios/db": "workspace:*"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240529.0",
+    "wrangler": "^3.57.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "tailwindcss": "^3.4.3",
+    "autoprefixer": "^10.4.19"
+  }
+}

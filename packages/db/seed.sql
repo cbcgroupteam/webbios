@@ -82,7 +82,10 @@ INSERT INTO wb_role_permissions (role_id, permission_id) VALUES
 -- MENUS
 INSERT INTO wb_menus (id, parent_id, label, icon, path, permission_slug, position, is_system, translations) VALUES
 ('01KTC8SHPEESPJEDSK19MG72VC', NULL, 'Tổng quan', 'Home', '/', 'dashboard:view', 1, 1, '{"isCategory":false}'),
-('01KTC8SHPEV0W5WEHBHW506XY4', NULL, 'Thư viện media', 'Image', '/media', 'media:view', 2, 1, '{"isCategory":false}'),
+('01KTC8SHPEXXXXXXXXXXXXXXX1', NULL, 'KHO ỨNG DỤNG', NULL, '', NULL, 5, 1, '{"vi":"KHO ỨNG DỤNG","en":"APP STORE","isCategory":true}'),
+('01KTC8SHPEXXXXXXXXXXXXXXX2', '01KTC8SHPEXXXXXXXXXXXXXXX1', 'Ứng dụng đã cài', 'Package', '/apps', 'apps:view', 6, 1, '{"isCategory":false}'),
+('01KTC8SHPEXXXXXXXXXXXXXXX3', '01KTC8SHPEXXXXXXXXXXXXXXX1', 'Kho ứng dụng', 'Store', '/apps/store', 'apps:view', 7, 1, '{"isCategory":false}'),
+('01KTC8SHPEV0W5WEHBHW506XY4', NULL, 'Thư viện media', 'Image', '/media', 'media:view', 8, 1, '{"isCategory":false}'),
 ('01KTC8SHPE2JKWW09BPE5ZS2XB', NULL, 'HỆ THỐNG', NULL, '', NULL, 10, 1, '{"vi":"HỆ THỐNG","en":"SYSTEM","isCategory":true}'),
 ('01KTC8SHPFVKGC64CS0K0487H0', '01KTC8SHPE2JKWW09BPE5ZS2XB', 'Người dùng', 'Users', '/users', 'users:view', 11, 1, '{"isCategory":false}'),
 ('01KTC8SHPFKJZJXYE03SFYXQMQ', '01KTC8SHPE2JKWW09BPE5ZS2XB', 'Menu', 'Menu', '/system/menus', 'menus:view', 12, 1, '{"isCategory":false}'),

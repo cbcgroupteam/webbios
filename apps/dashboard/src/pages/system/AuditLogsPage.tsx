@@ -1,23 +1,49 @@
+import { useState, useEffect } from 'react';
 import { Search, Calendar, Download, RefreshCw, Activity } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { webbios } from '../../api';
+
+interface AuditLog {
+  id: string;
+  action: string;
+  userEmail?: string;
+  resourceType: string;
+  resourceTitle?: string;
+  createdAt: string;
+  changes?: any;
+}
 
 const AuditLogsPage = () => {
   const { t } = useTranslation();
-
-  const logs = [
-    { id: 1, action: 'User Login', user: 'admin@webbios.local', details: 'Successfully logged in from 192.168.1.1', time: '10:45 AM', date: '05/06/2026', status: 'success' },
-    { id: 2, action: 'Update Setting', user: 'admin@webbios.local', details: 'Changed site name to "My WebbiOS Site"', time: '10:42 AM', date: '05/06/2026', status: 'success' },
-    { id: 3, action: 'Failed Login', user: 'unknown', details: 'Invalid password for user test@example.com', time: '09:15 AM', date: '05/06/2026', status: 'error' },
-    { id: 4, action: 'Install App', user: 'admin@webbios.local', details: 'Installed E-commerce Core v2.1.0', time: 'Yesterday', date: '04/06/2026', status: 'success' },
-    { id: 5, action: 'Create Role', user: 'admin@webbios.local', details: 'Created new role "Moderator"', time: 'Yesterday', date: '04/06/2026', status: 'success' },
-  ];
+  const [logs, setLogs] = useState<AuditLog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [timeFilter, setTimeFilter] = useState('all');
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
 
   const timeFilters = [
-    t('audit.timeFilters.all'),
-    t('audit.timeFilters.today'),
-    t('audit.timeFilters.last7Days'),
-    t('audit.timeFilters.last30Days')
+    { value: 'all', label: t('audit.timeFilters.all') },
+    { value: 'today', label: t('audit.timeFilters.today') },
+    { value: 'last7Days', label: t('audit.timeFilters.last7Days') },
+    { value: 'last30Days', label: t('audit.timeFilters.last30Days') }
   ];
+
+  const fetchLogs = async () => {
+    try {
+      setLoading(true);
+      const res = await webbios.auditLogs.list({ page, limit: 20, timeFilter });
+      setLogs(res.data);
+      setTotal(res.meta.total);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchLogs();
+  }, [timeFilter, page]);
 
   return (
     <div className="space-y-6">
@@ -27,8 +53,8 @@ const AuditLogsPage = () => {
           <p className="text-sm text-cf-gray-text mt-1">{t('audit.description')}</p>
         </div>
         <div className="flex space-x-2">
-          <button className="p-2 border border-cf-border bg-surface rounded-md hover:bg-gray-50 text-cf-text transition-colors shadow-sm" title={t('audit.refresh')}>
-            <RefreshCw size={18} />
+          <button onClick={fetchLogs} className="p-2 border border-cf-border bg-surface rounded-md hover:bg-gray-50 text-cf-text transition-colors shadow-sm" title={t('audit.refresh')}>
+            <RefreshCw size={18} className={loading ? 'animate-spin' : ''} />
           </button>
           <button className="flex items-center space-x-2 border border-cf-border bg-surface hover:bg-gray-50 text-cf-text px-4 py-2 rounded-md transition-colors shadow-sm">
             <Download size={16} />
@@ -49,9 +75,16 @@ const AuditLogsPage = () => {
           </div>
           <div className="relative">
             <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-            <select className="pl-9 pr-8 py-2 bg-background border border-cf-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
-              {timeFilters.map((filter, index) => (
-                <option key={index}>{filter}</option>
+            <select 
+              className="pl-9 pr-8 py-2 bg-background border border-cf-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+              value={timeFilter}
+              onChange={(e) => {
+                setTimeFilter(e.target.value);
+                setPage(1);
+              }}
+            >
+              {timeFilters.map((filter) => (
+                <option key={filter.value} value={filter.value}>{filter.label}</option>
               ))}
             </select>
           </div>
@@ -68,30 +101,57 @@ const AuditLogsPage = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-cf-border">
-              {logs.map(log => (
+              {loading && logs.length === 0 ? (
+                <tr>
+                  <td colSpan={4} className="px-6 py-4 text-center text-sm text-gray-500">{t('common.loading')}</td>
+                </tr>
+              ) : logs.map(log => (
                 <tr key={log.id} className="bg-surface hover:bg-gray-50/50 transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center space-x-3">
-                      <div className={`p-1.5 rounded-full ${log.status === 'success' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+                      <div className="p-1.5 rounded-full bg-blue-100 text-blue-600">
                         <Activity size={14} />
                       </div>
                       <span className="font-medium text-cf-text">{log.action}</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-gray-600">
-                    {log.user}
+                    {log.userEmail || 'System'}
                   </td>
-                  <td className="px-6 py-4 text-gray-500 max-w-xs truncate">
-                    {log.details}
+                  <td className="px-6 py-4 text-gray-500 max-w-xs truncate" title={log.changes ? JSON.stringify(log.changes) : ''}>
+                    {log.resourceType}: {log.resourceTitle}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <div>{log.time}</div>
-                    <div className="text-xs text-gray-400">{log.date}</div>
+                    {new Date(log.createdAt).toLocaleString()}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+        
+        {/* Simple pagination */}
+        <div className="p-4 border-t border-cf-border flex items-center justify-between">
+          <span className="text-sm text-gray-500">
+            Total: {total}
+          </span>
+          <div className="space-x-2">
+            <button 
+              disabled={page === 1} 
+              onClick={() => setPage(p => p - 1)}
+              className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50"
+            >
+              Prev
+            </button>
+            <span className="text-sm">Page {page}</span>
+            <button 
+              disabled={logs.length < 20} 
+              onClick={() => setPage(p => p + 1)}
+              className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </div>

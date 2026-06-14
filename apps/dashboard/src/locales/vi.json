@@ -332,8 +332,29 @@
       "inactive": "Vô hiệu hóa"
     },
     "actions": {
-      "edit": "Chỉnh sửa",
-      "delete": "Xóa"
+      "edit": "Cập nhật",
+      "delete": "Xóa",
+      "resetPassword": "Cấp lại mật khẩu",
+      "lock": "Khoá",
+      "unlock": "Mở khoá",
+      "archive": "Xoá (Lưu trữ)"
+    },
+    "modal": {
+      "add": "Thêm người dùng",
+      "edit": "Cập nhật người dùng",
+      "resetPassword": "Cấp lại mật khẩu",
+      "firstName": "Tên",
+      "lastName": "Họ",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "role": "Vai trò",
+      "permissions": "Quyền hạn bổ sung",
+      "copyPassword": "Sao chép mật khẩu",
+      "sendPassword": "Gửi mật khẩu qua email",
+      "autoGenerate": "Tạo ngẫu nhiên",
+      "smtpWarning": "Hệ thống chưa được cấu hình SMTP.",
+      "smtpLink": "Cấu hình ngay",
+      "confirmArchive": "Bạn có chắc chắn muốn xoá (lưu trữ) người dùng này không?"
     }
   },
   "audit": {
@@ -360,30 +381,77 @@
   },
   "settings": {
     "title": "Cài đặt hệ thống",
-    "description": "Cấu hình các thông số hệ thống",
+    "description": "Cấu hình các thông số hệ thống và tiêu chuẩn doanh nghiệp",
     "save": "Lưu thay đổi",
+    "saving": "Đang lưu...",
+    "messages": {
+      "loadFailed": "Không thể tải cấu hình",
+      "saveSuccess": "Cập nhật cấu hình thành công",
+      "saveFailed": "Có lỗi xảy ra khi lưu cấu hình"
+    },
     "tabs": {
       "general": "Cài đặt chung",
       "security": "Bảo mật",
+      "notifications": "Thông báo",
       "appearance": "Giao diện",
-      "email": "Email",
-      "advanced": "Nâng cao"
+      "email": "Email"
     },
     "general": {
-      "siteName": "Tên website",
-      "siteDescription": "Mô tả website",
-      "siteUrl": "URL website",
-      "language": "Ngôn ngữ mặc định",
-      "timezone": "Múi giờ",
-      "siteInfo": "Thông tin website",
+      "siteInfo": "Thông tin doanh nghiệp",
+      "siteName": "Tên doanh nghiệp",
+      "sitePhone": "Số điện thoại liên hệ",
       "regionAndLanguage": "Khu vực & Ngôn ngữ",
+      "timezone": "Múi giờ",
+      "language": "Ngôn ngữ mặc định",
+      "currency": "Tiền tệ mặc định",
+      "measurement": "Đơn vị đo lường",
+      "formatOptions": "Mã chứng từ (Định dạng)",
+      "orderPrefix": "Tiền tố Đơn hàng",
+      "invoicePrefix": "Tiền tố Hóa đơn",
       "languageVi": "Tiếng Việt (vi)",
       "languageEn": "English (en)"
     },
     "security": {
-      "mfa": "Xác thực 2 yếu tố",
+      "title": "Bảo mật hệ thống",
+      "require2fa": "Bắt buộc xác thực 2 yếu tố (2FA)",
+      "require2faDesc": "Ép buộc tất cả nhân viên phải cài đặt và sử dụng 2FA khi đăng nhập.",
       "passwordPolicy": "Chính sách mật khẩu",
-      "sessionTimeout": "Thời gian hết hạn phiên"
+      "passwordPolicyDesc": "Quy định độ phức tạp của mật khẩu cho toàn bộ tài khoản.",
+      "policyLow": "Thấp (Tối thiểu 6 ký tự)",
+      "policyMedium": "Trung bình (Tối thiểu 8 ký tự, có số)",
+      "policyHigh": "Cao (Tối thiểu 8 ký tự, chữ hoa, số, ký đặc biệt)"
+    },
+    "notifications": {
+      "title": "Kênh nhận thông báo",
+      "description": "Cấu hình cách hệ thống gửi thông báo cho Ban quản trị.",
+      "email": "Nhận qua Email",
+      "inApp": "Nhận qua Ứng dụng (Web Push)",
+      "zalo": "Nhận qua Zalo ZNS (Đang phát triển)",
+      "events": "Sự kiện kích hoạt",
+      "onNewOrder": "Khi có đơn hàng mới",
+      "onNewUser": "Khi có người dùng mới đăng ký"
+    },
+    "appearance": {
+      "title": "Giao diện ERP",
+      "description": "Cấu hình nhận diện thương hiệu nội bộ cho ERP.",
+      "logo": "Logo hệ thống",
+      "favicon": "Favicon",
+      "uploadBtn": "Tải ảnh lên",
+      "freePlanNotice": "Tính năng chỉ dành cho gói Webbi Pro",
+      "freePlanDesc": "Để thay đổi Logo và Favicon, vui lòng nâng cấp lên gói Webbi Pro.",
+      "upgradeBtn": "Nâng cấp ngay"
+    },
+    "email": {
+      "title": "Cấu hình Email (SMTP)",
+      "description": "Cấu hình máy chủ gửi thư để hệ thống gửi các email thông báo nội bộ.",
+      "host": "SMTP Host",
+      "port": "SMTP Port",
+      "user": "Tên đăng nhập",
+      "pass": "Mật khẩu",
+      "from": "Email người gửi (From)",
+      "upsellBanner": "Bạn cần gửi Email Marketing hàng loạt?",
+      "upsellDesc": "Khám phá Ứng dụng Mailer chuyên nghiệp trong App Store với hàng loạt template và thống kê chi tiết.",
+      "exploreApps": "Khám phá App Store"
     }
   },
   "apiKeys": {
@@ -398,7 +466,13 @@
       "actions": "Thao tác"
     },
     "copy": "Sao chép",
-    "revoke": "Thu hồi"
+    "revoke": "Thu hồi",
+    "modal": {
+      "add": "Tạo Key mới",
+      "name": "Tên API Key",
+      "scopes": "Quyền truy cập (Scopes)",
+      "secretWarning": "Vui lòng sao chép Secret Code này. Nó sẽ chỉ được hiển thị một lần duy nhất!"
+    }
   },
   "account": {
     "title": "Tài khoản của tôi",
@@ -408,8 +482,8 @@
       "security": "Đổi mật khẩu"
     },
     "profile": {
-      "firstName": "Tên (First Name)",
-      "lastName": "Họ (Last Name)",
+      "firstName": "Tên",
+      "lastName": "Họ",
       "email": "Email",
       "emailNote": "Email không thể thay đổi. Vui lòng liên hệ hỗ trợ nếu cần.",
       "role": "Vai trò:",

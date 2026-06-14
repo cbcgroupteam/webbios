@@ -121,6 +121,7 @@ export async function seed(env: { DB: D1Database }) {
 
     const systemMenuId = ulid();
     const webbiosMenuId = ulid();
+    const settingsMenuId = ulid();
 
     const menusData = [
       // Top Level
@@ -134,8 +135,12 @@ export async function seed(env: { DB: D1Database }) {
       { id: ulid(), parentId: systemMenuId, label: 'Vai trò', icon: 'Shield', path: '/system/roles', permissionSlug: 'roles:view', appSlug: null, position: 13, isSystem: true, translations: { vi: 'Vai trò', en: 'Roles' } },
       { id: ulid(), parentId: systemMenuId, label: 'Phân quyền', icon: 'Lock', path: '/system/permissions', permissionSlug: 'permissions:view', appSlug: null, position: 14, isSystem: true, translations: { vi: 'Phân quyền', en: 'Permissions' } },
       { id: ulid(), parentId: systemMenuId, label: 'Nhật ký', icon: 'FileText', path: '/audit', permissionSlug: 'audit:view', appSlug: null, position: 15, isSystem: true, translations: { vi: 'Nhật ký', en: 'Audit Logs' } },
-      { id: ulid(), parentId: systemMenuId, label: 'Cài đặt', icon: 'Settings', path: '/settings', permissionSlug: 'settings:view', appSlug: null, position: 16, isSystem: true, translations: { vi: 'Cài đặt', en: 'Settings' } },
-      { id: ulid(), parentId: systemMenuId, label: 'API Keys', icon: 'Key', path: '/api-keys', permissionSlug: 'api_keys:view', appSlug: null, position: 17, isSystem: true, translations: { vi: 'API Keys', en: 'API Keys' } },
+      { id: ulid(), parentId: systemMenuId, label: 'Cron Job', icon: 'Clock', path: '/system/cron-jobs', permissionSlug: 'settings:view', appSlug: null, position: 16, isSystem: true, translations: { vi: 'Cron Job', en: 'Cron Jobs' } },
+      { id: settingsMenuId, parentId: systemMenuId, label: 'Cài đặt', icon: 'Settings', path: '', permissionSlug: 'settings:view', appSlug: null, position: 17, isSystem: true, translations: { vi: 'Cài đặt', en: 'Settings' } },
+      { id: ulid(), parentId: settingsMenuId, label: 'Hệ thống', icon: null, path: '/settings', permissionSlug: 'settings:view', appSlug: null, position: 1, isSystem: true, translations: { vi: 'Hệ thống', en: 'System' } },
+      { id: ulid(), parentId: settingsMenuId, label: 'Tên miền', icon: null, path: '/settings/domains', permissionSlug: 'settings:view', appSlug: null, position: 2, isSystem: true, translations: { vi: 'Tên miền', en: 'Domains' } },
+      { id: ulid(), parentId: settingsMenuId, label: 'Webhooks', icon: null, path: '/settings/webhooks', permissionSlug: 'settings:view', appSlug: null, position: 3, isSystem: true, translations: { vi: 'Webhooks', en: 'Webhooks' } },
+      { id: ulid(), parentId: systemMenuId, label: 'API Keys', icon: 'Key', path: '/api-keys', permissionSlug: 'api_keys:view', appSlug: null, position: 18, isSystem: true, translations: { vi: 'API Keys', en: 'API Keys' } },
 
       // WebbiOS Category
       { id: webbiosMenuId, label: 'WebbiOS', icon: null, path: '', permissionSlug: null, appSlug: null, position: 20, isSystem: true, translations: { vi: 'WEBBIOS', en: 'WEBBIOS', isCategory: true } },
@@ -177,6 +182,17 @@ export async function seed(env: { DB: D1Database }) {
       { key: 'site.locale', value: JSON.stringify('vi'), groupName: 'site' },
       { key: 'site.timezone', value: JSON.stringify('Asia/Ho_Chi_Minh'), groupName: 'site' },
       { key: 'site.currency', value: JSON.stringify('VND'), groupName: 'site' },
+      { key: 'site.measurement', value: JSON.stringify('kg'), groupName: 'site' },
+      { key: 'security.require_2fa', value: JSON.stringify(false), groupName: 'system' },
+      { key: 'security.password_policy', value: JSON.stringify('medium'), groupName: 'system' },
+      { key: 'smtp.host', value: JSON.stringify(''), groupName: 'system' },
+      { key: 'smtp.port', value: JSON.stringify('587'), groupName: 'system' },
+      { key: 'smtp.user', value: JSON.stringify(''), groupName: 'system' },
+      { key: 'smtp.pass', value: JSON.stringify(''), groupName: 'system' },
+      { key: 'smtp.from', value: JSON.stringify(''), groupName: 'system' },
+      { key: 'format.order_prefix', value: JSON.stringify('ORD-'), groupName: 'system' },
+      { key: 'format.invoice_prefix', value: JSON.stringify('INV-'), groupName: 'system' },
+      { key: 'system.license_plan', value: JSON.stringify('free'), groupName: 'system' },
       { key: 'system.version', value: JSON.stringify('2.0.0'), groupName: 'system' },
       { key: 'system.blueprint', value: JSON.stringify(null), groupName: 'system' },
     ];

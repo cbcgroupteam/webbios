@@ -5,6 +5,7 @@ import { seed } from '@webbios/db/src/seed'
 type Bindings = {
   DB: D1Database
   JWT_SECRET: string
+  STORAGE: R2Bucket
 }
 
 const app = new Hono<{ Bindings: Bindings }>()
@@ -66,6 +67,15 @@ import menusApp from './routes/admin/menus'
 import permissionsApp from './routes/admin/permissions'
 import rolesApp from './routes/admin/roles'
 import updatesApp from './routes/admin/updates'
+import settingsApp from './routes/admin/settings'
+import webhooksApp from './routes/admin/webhooks'
+import mediaApp from './routes/admin/media'
+import marketplaceApp from './routes/admin/marketplace'
+import appsApp from './routes/admin/apps'
+import usersApp from './routes/admin/users'
+import auditLogsApp from './routes/admin/audit_logs'
+import apiKeysApp from './routes/admin/api_keys'
+import storefrontConfigApp from './routes/storefront/config'
 
 app.route('/v1/admin/auth', authApp)
 app.route('/v1/admin/dashboard', dashboardApp)
@@ -73,5 +83,16 @@ app.route('/v1/admin/menus', menusApp)
 app.route('/v1/admin/permissions', permissionsApp)
 app.route('/v1/admin/roles', rolesApp)
 app.route('/v1/admin/updates', updatesApp)
+app.route('/v1/admin/settings', settingsApp)
+app.route('/v1/admin/webhooks', webhooksApp)
+app.route('/v1/admin/media', mediaApp)
+app.route('/v1/admin/marketplace', marketplaceApp)
+app.route('/v1/admin/apps', appsApp)
+app.route('/v1/admin/users', usersApp)
+app.route('/v1/admin/audit-logs', auditLogsApp)
+app.route('/v1/admin/api-keys', apiKeysApp)
+
+// Storefront routes
+app.route('/v1/storefront/config', storefrontConfigApp)
 
 export default app

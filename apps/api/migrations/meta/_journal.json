@@ -8,6 +8,20 @@
       "when": 1780672425682,
       "tag": "0000_perpetual_molly_hayes",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1780992402835,
+      "tag": "0001_gray_maggott",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1781259416589,
+      "tag": "0002_melted_blazing_skull",
+      "breakpoints": true
     }
   ]
 }

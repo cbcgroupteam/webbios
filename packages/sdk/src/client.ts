@@ -64,7 +64,7 @@ export class ApiClient {
       headers.set('Authorization', `Bearer ${this.token}`);
     }
     
-    if (!headers.has('Content-Type')) {
+    if (!headers.has('Content-Type') && !(options.body instanceof FormData)) {
       headers.set('Content-Type', 'application/json');
     }
 
@@ -113,10 +113,11 @@ export class ApiClient {
    * @returns The parsed JSON response.
    */
   async post(path: string, body: any, options?: RequestInit) {
+    const isFormData = body instanceof FormData;
     return this.fetch(path, {
       ...options,
       method: 'POST',
-      body: JSON.stringify(body)
+      body: isFormData ? body : JSON.stringify(body)
     });
   }
 
@@ -129,10 +130,11 @@ export class ApiClient {
    * @returns The parsed JSON response.
    */
   async put(path: string, body: any, options?: RequestInit) {
+    const isFormData = body instanceof FormData;
     return this.fetch(path, {
       ...options,
       method: 'PUT',
-      body: JSON.stringify(body)
+      body: isFormData ? body : JSON.stringify(body)
     });
   }
 

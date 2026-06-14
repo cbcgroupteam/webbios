@@ -32,7 +32,11 @@ const resolveApiUrl = () => {
       return `https://webbios-api-${shopId}.chieunt.workers.dev/v1/admin`;
     }
     
-    return 'https://webbios-api.chieunt.workers.dev/v1/admin';
+    if (projectDomain === 'webbios-dashboard') {
+      return 'https://webbios-api.webbios-developers.workers.dev/v1/admin';
+    }
+
+    return 'https://webbios-api.webbios-developers.workers.dev/v1/admin';
   }
 
   // Fallback an toàn nếu không khớp các quy tắc trên

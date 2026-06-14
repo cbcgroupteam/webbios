@@ -36,13 +36,13 @@ Platform **KHÔNG** dùng database hay hệ thống auth riêng. Thay vào đó:
 
 ### 2.2. Cấu trúc Repo
 
-Platform là một **repo riêng biệt** (`WebbiPlatform`), tách biệt hoàn toàn khỏi WebbiOS Core repo:
+Platform là một **repo riêng biệt** (`WebbiPlatform`), codebase: E:\WebbiPlatform, tách biệt hoàn toàn khỏi WebbiOS Core repo:
 
 ```
 WebbiOS (Core Monorepo)              WebbiPlatform (Repo riêng)
 ┌───────────────────────┐            ┌────────────────────────────┐
 │  apps/                │            │  apps/                     │
-│  ├── api/    (Kernel) │            │  ├── api.webbios.dev/      │
+│  ├── api/    (Kernel) │            │  ├── platform.webbios.dev/ │
 │  └── dashboard/ (UI)  │            │  │   └── (Platform Suite)  │
 │                       │            │  └── webbios.dev/          │
 │  packages/            │            │      └── (Marketing web)   │
@@ -63,7 +63,7 @@ WebbiOS (Core Monorepo)              WebbiPlatform (Repo riêng)
 | Tên miền | Vai trò | Nơi deploy |
 |---|---|---|
 | `admin.webbios.dev` | Dashboard quản trị Platform (WebbiOS Core instance) | CF Pages |
-| `api.webbios.dev` | API Gateway — Platform Suite (Worker) | CF Workers |
+| `platform.webbios.dev` | API Gateway — Platform Suite (Worker) | CF Workers |
 | `webbios.dev` | Web giới thiệu tiếng Anh, Marketplace UI | CF Pages |
 | `docs.webbios.dev` | Tài liệu kỹ thuật (Astro Starlight) | CF Pages |
 
@@ -85,7 +85,7 @@ INSTANCE_TYPE = "shop"
 
 **Quy trình Bootstrap (giải quyết bài toán Con gà - Quả trứng):**
 
-Để cài app từ Kho ứng dụng → cần gọi API Platform (`api.webbios.dev`). Nhưng Platform chưa cài → chưa có API.
+Để cài app từ Kho ứng dụng → cần gọi API Platform (`platform.webbios.dev`). Nhưng Platform chưa cài → chưa có API.
 
 Giải pháp: Dùng CLI (`@webbi/cli`) để cài trực tiếp, không qua Kho ứng dụng:
 
@@ -133,7 +133,7 @@ Platform Suite sử dụng prefix `plt_*`, nằm chung database D1 với Core (`
 
 ### 4.1. Luồng cấp phép (Licensing & Provisioning)
 Khi một khách hàng đăng ký dịch vụ từ một Regional Client (VD: `webbi.vn`):
-1. Client gửi yêu cầu tạo shop tới `api.webbios.dev`.
+1. Client gửi yêu cầu tạo shop tới `platform.webbios.dev`.
 2. Platform API gọi Cloudflare API để:
    - Tạo D1 Database.
    - Cấu hình Worker cho Core API (set `INSTANCE_TYPE="shop"`).
@@ -160,7 +160,7 @@ WebbiOS sử dụng mô hình App-as-Worker. Khi khách hàng cài đặt CRM Ap
 ## 5. Bảo mật License & Chống vi phạm bản quyền
 
 1. **Không lưu License trên DB khách hàng:** Bảng `plt_licenses` chỉ nằm trên God Instance (Platform).
-2. **Heartbeat Check:** Định kỳ 24h, Core API của khách (có `INSTANCE_TYPE="shop"`) sẽ ping về `api.webbios.dev` kèm theo token để xác thực. God Instance (`INSTANCE_TYPE="platform"`) bỏ qua bước này.
+2. **Heartbeat Check:** Định kỳ 24h, Core API của khách (có `INSTANCE_TYPE="shop"`) sẽ ping về `platform.webbios.dev` kèm theo token để xác thực. God Instance (`INSTANCE_TYPE="platform"`) bỏ qua bước này.
 3. **App Checksum:** Khi tải App từ Marketplace, Core sẽ verify checksum để đảm bảo code không bị can thiệp.
 4. **Revocation:** Nếu phát hiện vi phạm hoặc khách không đóng phí, Platform có thể thu hồi quyền bằng cách block request qua Cloudflare WAF hoặc xóa Worker thông qua CF API.
 5. **INSTANCE_TYPE bảo mật:** Lưu trong env var của Worker (không phải database), khách hàng không thể tự sửa thành "platform" để bypass license check.
@@ -180,7 +180,11 @@ WebbiOS sử dụng mô hình App-as-Worker. Khi khách hàng cài đặt CRM Ap
 1. Lập trình viên chạy lệnh `webbi publish` từ máy tính cục bộ.
 2. CLI đóng gói (zip) dự án và gửi `POST /v1/developer/publish` tới Platform API.
 3. Platform API lưu file zip lên R2 và tạo bản ghi mới trong `plt_app_versions`.
-4. Phiên bản mới tự động khả dụng trên Marketplace cho khách hàng nâng cấp (1-Click Update).
+4. **Tải mã nguồn (Source Bundle):**
+   - Lấy `bundle_url` từ `plt_app_versions`.
+   - Ví dụ: `webbios-apps/{app_slug}/webbios-app-{version}.zip`.
+   - Fetch từ R2 bucket `webbios-platform`.
+5. Phiên bản mới tự động khả dụng trên Marketplace cho khách hàng nâng cấp (1-Click Update).
 
 ---
 
@@ -191,10 +195,10 @@ WebbiOS sử dụng mô hình App-as-Worker. Khi khách hàng cài đặt CRM Ap
 ### 7.1. Nguyên lý hoạt động (Soft Lock-in)
 
 Khách hàng sở hữu hoàn toàn mã nguồn và Database. Website hoạt động vĩnh viễn trên bất kỳ nền tảng nào.
-Tuy nhiên, để sử dụng các **Dịch vụ Giá trị Gia tăng** (Thanh toán, Vận chuyển, Chatbot...), Core API của khách hàng **phải đi qua cổng** `api.webbios.dev`.
+Tuy nhiên, để sử dụng các **Dịch vụ Giá trị Gia tăng** (Thanh toán, Vận chuyển, Chatbot...), Core API của khách hàng **phải đi qua cổng** `platform.webbios.dev`.
 
 ### 7.2. Lợi ích
-1. **Bảo mật Token đối tác:** Khách hàng không biết API Key gốc của GHTK, GHN, VNPAY. Master Token nằm ở `api.webbios.dev`.
+1. **Bảo mật Token đối tác:** Khách hàng không biết API Key gốc của GHTK, GHN, VNPAY. Master Token nằm ở `platform.webbios.dev`.
 2. **Kiểm soát doanh thu (Kickback):** Platform ghi nhận volume giao dịch để đối soát hoa hồng.
 3. **Kill Switch:** Thu hồi License → toàn bộ dịch vụ giá trị gia tăng tê liệt.
 

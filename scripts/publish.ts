@@ -1,17 +1,19 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-// Load .env.test for Cloudflare credentials
-const envPath = path.join(process.cwd(), '.env.test');
+// Load .env.platform for Cloudflare credentials
+const envPath = path.join(process.cwd(), '.env.platform');
 if (fs.existsSync(envPath)) {
-  const envContent = fs.readFileSync(envPath, 'utf8');
+  const envContent = fs.readFileSync(envPath, 'utf8').replace(/^\uFEFF/, '');
   for (const line of envContent.split('\n')) {
-    const match = line.match(/^([^=]+)=(.*)$/);
+    const match = line.match(/([^=\s]+)\s*=\s*(.*)/);
     if (match) {
       process.env[match[1].trim()] = match[2].trim();
     }
   }
 }
+
+console.log('Using CF Account:', process.env.CLOUDFLARE_ACCOUNT_ID ? `Loaded (${process.env.CLOUDFLARE_ACCOUNT_ID})` : 'Missing');
 
 const runCmd = (cmd: string, cwd: string = process.cwd()): string => {
   console.log(`\n> ${cmd}`);
@@ -48,14 +50,23 @@ const publish = async () => {
   const zipFile = path.join(releaseDir, `webbios-core-${version}.zip`);
   if (fs.existsSync(zipFile)) fs.rmSync(zipFile);
   
-  // Run tar excluding node_modules and .git
-  const excludePaths = ['--exclude', 'node_modules', '--exclude', '.git', '--exclude', '.wrangler', '--exclude', '.gemini', '--exclude', 'webbios-release'];
+  // Run tar excluding node_modules, .git, caches, built assets, and old zips
+  const excludePaths = [
+    '--exclude', 'node_modules', 
+    '--exclude', '.git', 
+    '--exclude', '.wrangler', 
+    '--exclude', '.gemini', 
+    '--exclude', 'webbios-release',
+    '--exclude', '.turbo',
+    '--exclude', 'dist',
+    '--exclude', '*.zip'
+  ];
   runCmd(`tar.exe -a -c -f "${zipFile}" ${excludePaths.join(' ')} .`);
   
   console.log(`\n☁️ Uploading to R2 Bucket (webbios-platform)...`);
   // We use wrangler to upload the file to R2
   // Make sure CLOUDFLARE_API_TOKEN is set in environment
-  runCmd(`npx.cmd wrangler r2 object put webbios-platform/webbios-core/${version}.zip --file="${zipFile}" --remote`);
+  runCmd(`npx.cmd wrangler r2 object put webbios-platform/webbios-core/webbios-core-${version}.zip --file="${zipFile}" --remote`);
 
   console.log(`\n📡 Registering version on Platform Gateway...`);
   const platformApi = 'https://platform.webbios.dev';
@@ -68,7 +79,8 @@ const publish = async () => {
     body: JSON.stringify({
       version,
       releaseNotes,
-      isCritical: false
+      isCritical: false,
+      isLatest: true
     })
   });
   

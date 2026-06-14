@@ -16,7 +16,7 @@ Tài liệu này đóng vai trò "Kim chỉ nam" định hình tư duy và cách
 
 *   **Type-Safe Xuyên Suốt**: Khai báo kiểu dữ liệu mạnh mẽ với TypeScript. **Tuyệt đối không sử dụng type `any`**. Schema của D1 Database phải được đóng gói tại package trung tâm (`@webbios/db`) và xuất khẩu Types cho mọi ứng dụng con sử dụng.
 *   **Chia nhỏ Gói Code (Packages)**: 
-    *   `apps/`: Các ứng dụng độc lập (API, Dashboard, Storefront).
+    *   `apps/`: Các ứng dụng độc lập (API, Dashboard).
     *   `packages/`: Thư viện lõi tái sử dụng (Shared, DB, UI).
 *   **API (Hono.js)**: Tuân thủ mô hình 3 lớp: **Route -> Service -> Database**.
     - **Route**: Định nghĩa endpoint, validation, response.
@@ -104,8 +104,8 @@ Tài liệu này đóng vai trò "Kim chỉ nam" định hình tư duy và cách
 *   **Cập nhật liên tục**: Code thay đổi, tài liệu cũng phải được cập nhật đồng bộ.
 
 ### Quy định viết tài liệu mã nguồn (WebbiSDK JSDoc)
-Để hệ thống WebbiOS Developer Portal (developers.webbi.vn) tự động sinh ra tài liệu chuẩn xác, **bất kỳ ai khi cập nhật hoặc thêm mới code vào `packages/sdk` đều BẮT BUỘC tuân thủ các quy định sau**:
-1. **Tiếng Anh 100%**: Tất cả các comment (JSDoc) trong `packages/sdk` phải được viết bằng tiếng Anh.
+Để hệ thống WebbiOS Developer Portal (docs.webbios.dev) tự động sinh ra tài liệu chuẩn xác, **bất kỳ ai khi cập nhật hoặc thêm mới code vào `packages/sdk` đều BẮT BUỘC tuân thủ các quy định sau**:
+1. **Tiếng Anh 100%**: Tất cả các comment phải được viết bằng tiếng Anh.
 2. **Comment cho MỌI Export**: Bất kỳ class, interface, type, method, hoặc property nào được export ra ngoài (public API) đều phải có comment JSDoc đi kèm. ĐỪNG BAO GIỜ quên viết JSDoc cho các tính năng mới trong SDK.
 3. **Cấu trúc JSDoc chuẩn**:
    - Dòng đầu tiên: Mô tả ngắn gọn chức năng (Summary).

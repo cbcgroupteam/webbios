@@ -334,7 +334,28 @@
     },
     "actions": {
       "edit": "Edit",
-      "delete": "Delete"
+      "delete": "Delete",
+      "resetPassword": "Reset Password",
+      "lock": "Lock",
+      "unlock": "Unlock",
+      "archive": "Archive"
+    },
+    "modal": {
+      "add": "Add User",
+      "edit": "Edit User",
+      "resetPassword": "Reset Password",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "password": "Password",
+      "role": "Role",
+      "permissions": "Additional Permissions",
+      "copyPassword": "Copy Password",
+      "sendPassword": "Send Password via Email",
+      "autoGenerate": "Auto Generate",
+      "smtpWarning": "SMTP is not configured in the system.",
+      "smtpLink": "Configure Now",
+      "confirmArchive": "Are you sure you want to archive this user?"
     }
   },
   "audit": {
@@ -361,30 +382,77 @@
   },
   "settings": {
     "title": "System Settings",
-    "description": "Configure system parameters",
+    "description": "Configure system parameters and business standards",
     "save": "Save Changes",
+    "saving": "Saving...",
+    "messages": {
+      "loadFailed": "Failed to load settings",
+      "saveSuccess": "Settings updated successfully",
+      "saveFailed": "Failed to save settings"
+    },
     "tabs": {
       "general": "General",
       "security": "Security",
+      "notifications": "Notifications",
       "appearance": "Appearance",
-      "email": "Email",
-      "advanced": "Advanced"
+      "email": "Email"
     },
     "general": {
-      "siteName": "Site Name",
-      "siteDescription": "Site Description",
-      "siteUrl": "Site URL",
-      "language": "Default Language",
-      "timezone": "Timezone",
-      "siteInfo": "Site Information",
+      "siteInfo": "Business Information",
+      "siteName": "Business Name",
+      "sitePhone": "Contact Phone",
       "regionAndLanguage": "Region & Language",
+      "timezone": "Timezone",
+      "language": "Default Language",
+      "currency": "Default Currency",
+      "measurement": "Measurement Unit",
+      "formatOptions": "Document Formats",
+      "orderPrefix": "Order Prefix",
+      "invoicePrefix": "Invoice Prefix",
       "languageVi": "Vietnamese (vi)",
       "languageEn": "English (en)"
     },
     "security": {
-      "mfa": "Two-Factor Authentication",
+      "title": "System Security",
+      "require2fa": "Require Two-Factor Auth (2FA)",
+      "require2faDesc": "Force all staff to set up and use 2FA when logging in.",
       "passwordPolicy": "Password Policy",
-      "sessionTimeout": "Session Timeout"
+      "passwordPolicyDesc": "Set password complexity rules for all accounts.",
+      "policyLow": "Low (Min 6 chars)",
+      "policyMedium": "Medium (Min 8 chars, with numbers)",
+      "policyHigh": "High (Min 8 chars, letters, numbers, special chars)"
+    },
+    "notifications": {
+      "title": "Notification Channels",
+      "description": "Configure how the system sends alerts to administrators.",
+      "email": "Receive via Email",
+      "inApp": "Receive via In-App (Web Push)",
+      "zalo": "Receive via Zalo ZNS (In development)",
+      "events": "Trigger Events",
+      "onNewOrder": "On new order",
+      "onNewUser": "On new user registration"
+    },
+    "appearance": {
+      "title": "ERP Appearance",
+      "description": "Configure internal brand identity for the ERP.",
+      "logo": "System Logo",
+      "favicon": "Favicon",
+      "uploadBtn": "Upload image",
+      "freePlanNotice": "Feature available for Webbi Pro only",
+      "freePlanDesc": "To change Logo and Favicon, please upgrade to the Webbi Pro plan.",
+      "upgradeBtn": "Upgrade Now"
+    },
+    "email": {
+      "title": "Email Configuration (SMTP)",
+      "description": "Configure the mail server for sending internal notifications.",
+      "host": "SMTP Host",
+      "port": "SMTP Port",
+      "user": "Username",
+      "pass": "Password",
+      "from": "Sender Email (From)",
+      "upsellBanner": "Need to send Bulk Email Marketing?",
+      "upsellDesc": "Discover the professional Mailer App in the App Store with various templates and detailed analytics.",
+      "exploreApps": "Explore App Store"
     }
   },
   "apiKeys": {
@@ -399,7 +467,13 @@
       "actions": "Actions"
     },
     "copy": "Copy",
-    "revoke": "Revoke"
+    "revoke": "Revoke",
+    "modal": {
+      "add": "Create API Key",
+      "name": "API Key Name",
+      "scopes": "Scopes",
+      "secretWarning": "Please copy this Secret Code. It will only be displayed once!"
+    }
   },
   "account": {
     "title": "My Account",

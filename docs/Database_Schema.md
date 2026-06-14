@@ -206,6 +206,34 @@ CREATE INDEX idx_wb_rp_perm ON wb_role_permissions(permission_id);
 
 ---
 
+### 3.5 wb_user_permissions
+
+> Bảng trung gian (Many-to-Many) gắn quyền trực tiếp vào một user (quyền bổ sung ngoài Role).
+
+```sql
+CREATE TABLE wb_user_permissions (
+  user_id TEXT NOT NULL REFERENCES wb_users(id) ON DELETE CASCADE,
+  permission_id TEXT NOT NULL REFERENCES wb_permissions(id) ON DELETE CASCADE,
+  PRIMARY KEY (user_id, permission_id)
+);
+
+CREATE INDEX idx_wb_up_user ON wb_user_permissions(user_id);
+CREATE INDEX idx_wb_up_perm ON wb_user_permissions(permission_id);
+```
+
+**Trường hợp sử dụng:**
+- Lấy tất cả quyền của 1 user (gồm quyền từ Role và quyền cấp riêng):
+  ```sql
+  SELECT DISTINCT p.slug 
+  FROM wb_permissions p 
+  LEFT JOIN wb_role_permissions rp ON p.id = rp.permission_id
+  LEFT JOIN wb_user_permissions up ON p.id = up.permission_id
+  JOIN wb_users u ON u.role_id = rp.role_id OR u.id = up.user_id
+  WHERE u.id = ?
+  ```
+
+---
+
 ### 3.5 wb_sessions
 
 > Quản lý phiên đăng nhập (refresh token) cho TẤT CẢ loại user. Hỗ trợ đa thiết bị.

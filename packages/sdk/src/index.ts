@@ -7,6 +7,12 @@ import { PermissionsModule } from './modules/permissions';
 import { RolesModule } from './modules/roles';
 import { PlatformModule } from './modules/platform';
 import { AdminUpdatesClient } from './modules/admin/updates';
+import { SettingsModule } from './modules/settings';
+import { WebhooksModule } from './modules/webhooks';
+import { MediaModule } from './modules/media';
+import { UsersModule } from './modules/users';
+import { AuditLogsModule } from './modules/auditLogs';
+import { ApiKeysModule } from './modules/apiKeys';
 
 /**
  * The main entry point for the WebbiOS SDK.
@@ -31,6 +37,13 @@ export class WebbiSDK {
   public platform: PlatformModule;
   /** Admin Updates module */
   public adminUpdates: AdminUpdatesClient;
+  /** Settings module */
+  public settings: SettingsModule;
+  public webhooks: WebhooksModule;
+  public media: MediaModule;
+  public users: UsersModule;
+  public auditLogs: AuditLogsModule;
+  public apiKeys: ApiKeysModule;
 
   /**
    * Initializes a new WebbiSDK instance.
@@ -49,6 +62,12 @@ export class WebbiSDK {
     this.roles = new RolesModule(this.client);
     this.platform = new PlatformModule(this.client);
     this.adminUpdates = new AdminUpdatesClient(this.client);
+    this.settings = new SettingsModule(this.client);
+    this.webhooks = new WebhooksModule(this.client);
+    this.media = new MediaModule(this.client);
+    this.users = new UsersModule(this.client);
+    this.auditLogs = new AuditLogsModule(this.client);
+    this.apiKeys = new ApiKeysModule(this.client);
   }
 
   /**
@@ -76,3 +95,8 @@ export * from './modules/dashboard';
 export * from './modules/products';
 export * from './modules/menus';
 export * from './modules/platform';
+export * from './modules/settings';
+export * from './modules/webhooks';
+export * from './modules/users';
+export * from './modules/auditLogs';
+export * from './modules/apiKeys';

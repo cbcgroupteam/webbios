@@ -79,6 +79,26 @@ A promise resolving to an array of MenuItem trees.
 
 ***
 
+### reorderMenus()
+
+> **reorderMenus**(`items`): `Promise`\<\{ `success`: `boolean`; \}\>
+
+Batch reorder menus - updates parentId and position for multiple items at once.
+
+#### Parameters
+
+##### items
+
+`object`[]
+
+Array of {id, parentId, position}
+
+#### Returns
+
+`Promise`\<\{ `success`: `boolean`; \}\>
+
+***
+
 ### updateMenu()
 
 > **updateMenu**(`id`, `data`): `Promise`\<\{ `success`: `boolean`; \}\>

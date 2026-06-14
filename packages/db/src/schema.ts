@@ -95,6 +95,20 @@ export const wbUsers = sqliteTable('wb_users', {
 });
 
 // ============================================================
+// 4.5 wb_user_permissions — User specific permissions
+// ============================================================
+export const wbUserPermissions = sqliteTable('wb_user_permissions', {
+  userId: text('user_id').notNull().references(() => wbUsers.id, { onDelete: 'cascade' }),
+  permissionId: text('permission_id').notNull().references(() => wbPermissions.id, { onDelete: 'cascade' }),
+}, (table) => {
+  return {
+    pk: primaryKey({ columns: [table.userId, table.permissionId] }),
+    userIdx: index('idx_wb_up_user').on(table.userId),
+    permIdx: index('idx_wb_up_perm').on(table.permissionId),
+  };
+});
+
+// ============================================================
 // 5. wb_sessions — Auth sessions for ALL user types
 // ============================================================
 export const wbSessions = sqliteTable('wb_sessions', {
@@ -242,5 +256,45 @@ export const wbAuditLogs = sqliteTable('wb_audit_logs', {
     actionIdx: index('idx_wb_audit_action').on(table.action),
     resourceIdx: index('idx_wb_audit_resource').on(table.resourceType, table.resourceId),
     createdIdx: index('idx_wb_audit_created').on(table.createdAt),
+  };
+});
+
+// ============================================================
+// 12. wb_webhooks — System Webhooks
+// ============================================================
+export const wbWebhooks = sqliteTable('wb_webhooks', {
+  id: text('id').primaryKey(), // ULID
+  name: text('name').notNull(), // Tên webhook (e.g. Gửi KiotViet)
+  url: text('url').notNull(), // Endpoint URL
+  events: text('events', { mode: 'json' }).notNull().default(sql`'[]'`), // ["order.created", "user.registered"]
+  secret: text('secret'), // Mã xác thực chữ ký (tùy chọn)
+  status: text('status').notNull().default('active'), // active | inactive
+  createdAt: text('created_at').notNull().default(sql`(datetime('now'))`),
+  updatedAt: text('updated_at').notNull().default(sql`(datetime('now'))`),
+}, (table) => {
+  return {
+    statusIdx: index('idx_wb_webhooks_status').on(table.status),
+  };
+});
+
+// ============================================================
+// 13. wb_cron_jobs — Background Tasks & Schedulers
+// ============================================================
+export const wbCronJobs = sqliteTable('wb_cron_jobs', {
+  id: text('id').primaryKey(), // ULID
+  name: text('name').notNull(), // Tên tác vụ (e.g. "Gửi email sinh nhật")
+  taskType: text('task_type').notNull(), // 'http_request', 'app_event', 'system_cleanup'
+  payload: text('payload', { mode: 'json' }).notNull().default(sql`'{}'`), // JSON config (url, method, app_slug...)
+  cronExpression: text('cron_expression'), // "* * * * *" (NULL if run once)
+  nextRunAt: text('next_run_at').notNull(), // ISO datetime
+  status: text('status').notNull().default('active'), // active | paused | completed | failed
+  lastRunAt: text('last_run_at'),
+  lastError: text('last_error'),
+  createdAt: text('created_at').notNull().default(sql`(datetime('now'))`),
+  updatedAt: text('updated_at').notNull().default(sql`(datetime('now'))`),
+}, (table) => {
+  return {
+    statusNextRunIdx: index('idx_wb_cron_jobs_run').on(table.status, table.nextRunAt),
+    taskTypeIdx: index('idx_wb_cron_jobs_type').on(table.taskType),
   };
 });

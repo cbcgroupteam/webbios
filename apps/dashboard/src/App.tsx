@@ -15,6 +15,7 @@ interface AuthContextType {
   permissions: string[];
   login: (token: string) => void;
   logout: () => void;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -23,7 +24,8 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   permissions: [],
   login: () => {},
-  logout: () => {}
+  logout: () => {},
+  refreshUser: async () => {}
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -44,9 +46,13 @@ import AppsPage from './pages/apps/AppsPage';
 import AppsStorePage from './pages/apps/AppsStorePage';
 import UsersPage from './pages/system/UsersPage';
 import AuditLogsPage from './pages/system/AuditLogsPage';
+import CronJobsPage from './pages/system/CronJobsPage';
 import SettingsPage from './pages/system/SettingsPage';
+import DomainsPage from './pages/system/DomainsPage';
+import WebhooksPage from './pages/system/WebhooksPage';
 import ApiKeysPage from './pages/system/ApiKeysPage';
 import AccountPage from './pages/AccountPage';
+import AppContainer from './pages/apps/AppContainer';
 
 // --- Protected Route ---
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -97,6 +103,10 @@ function App() {
     }
   };
 
+  const refreshUser = async () => {
+    if (token) await fetchUserInfo(token);
+  };
+
   const login = (newToken: string) => {
     localStorage.setItem('webbios_token', newToken);
     setToken(newToken);
@@ -121,7 +131,7 @@ function App() {
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, token, user, permissions, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, token, user, permissions, login, logout, refreshUser }}>
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -245,9 +255,13 @@ function App() {
           <Route path="/media" element={<ProtectedRoute><MediaPage /></ProtectedRoute>} />
           <Route path="/apps" element={<ProtectedRoute><AppsPage /></ProtectedRoute>} />
           <Route path="/apps/store" element={<ProtectedRoute><AppsStorePage /></ProtectedRoute>} />
+          <Route path="/apps/:appSlug/*" element={<ProtectedRoute><AppContainer /></ProtectedRoute>} />
           <Route path="/users" element={<ProtectedRoute><UsersPage /></ProtectedRoute>} />
           <Route path="/audit" element={<ProtectedRoute><AuditLogsPage /></ProtectedRoute>} />
+          <Route path="/system/cron-jobs" element={<ProtectedRoute><CronJobsPage /></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+          <Route path="/settings/domains" element={<ProtectedRoute><DomainsPage /></ProtectedRoute>} />
+          <Route path="/settings/webhooks" element={<ProtectedRoute><WebhooksPage /></ProtectedRoute>} />
           <Route path="/api-keys" element={<ProtectedRoute><ApiKeysPage /></ProtectedRoute>} />
           <Route path="/account" element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
 

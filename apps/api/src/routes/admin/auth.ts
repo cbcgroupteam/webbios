@@ -34,7 +34,8 @@ authApp.post('/login', async (c) => {
     avatarUrl: wbUsers.avatarUrl,
     status: wbUsers.status,
     roleId: wbUsers.roleId,
-    roleSlug: wbRoles.slug
+    roleSlug: wbRoles.slug,
+    roleName: wbRoles.name
   })
   .from(wbUsers)
   .leftJoin(wbRoles, eq(wbUsers.roleId, wbRoles.id))
@@ -93,7 +94,8 @@ authApp.post('/login', async (c) => {
       firstName: user.firstName,
       lastName: user.lastName,
       avatarUrl: user.avatarUrl,
-      role: user.roleSlug
+      role: user.roleSlug,
+      roleName: user.roleName
     }
   })
 })
@@ -108,7 +110,8 @@ authApp.get('/me', authMiddleware, async (c) => {
     firstName: wbUsers.firstName,
     lastName: wbUsers.lastName,
     avatarUrl: wbUsers.avatarUrl,
-    roleSlug: wbRoles.slug
+    roleSlug: wbRoles.slug,
+    roleName: wbRoles.name
   })
   .from(wbUsers)
   .leftJoin(wbRoles, eq(wbUsers.roleId, wbRoles.id))
@@ -143,10 +146,74 @@ authApp.get('/me', authMiddleware, async (c) => {
       firstName: user.firstName,
       lastName: user.lastName,
       avatarUrl: user.avatarUrl,
-      role: user.roleSlug
+      role: user.roleSlug,
+      roleName: user.roleName
     },
     permissions: permSlugs
   })
+})
+
+authApp.post('/update-profile', authMiddleware, async (c) => {
+  try {
+    const userPayload = c.get('user')
+    const body = await c.req.json()
+    const { firstName, lastName, avatarUrl } = body
+    
+    if (!firstName || !lastName) {
+      return c.json({ error: 'First name and last name are required' }, 400)
+    }
+
+    const db = getDb(c.env.DB)
+    
+    const updateData: any = { firstName, lastName }
+    if (avatarUrl !== undefined) {
+      updateData.avatarUrl = avatarUrl
+    }
+    
+    await db.update(wbUsers).set(updateData).where(eq(wbUsers.id, userPayload.sub))
+    
+    return c.json({ success: true, message: 'Profile updated successfully' })
+  } catch (err: any) {
+    return c.json({ success: false, error: err.message }, 500)
+  }
+})
+
+authApp.post('/change-password', authMiddleware, async (c) => {
+  try {
+    const userPayload = c.get('user')
+    const body = await c.req.json()
+    const { currentPassword, newPassword } = body
+    
+    if (!currentPassword || !newPassword) {
+      return c.json({ error: 'Current and new password are required' }, 400)
+    }
+
+    if (newPassword.length < 8) {
+      return c.json({ error: 'Password must be at least 8 characters' }, 400)
+    }
+
+    const db = getDb(c.env.DB)
+    const userRecords = await db.select({ passwordHash: wbUsers.passwordHash }).from(wbUsers).where(eq(wbUsers.id, userPayload.sub)).limit(1)
+    
+    if (!userRecords.length) {
+      return c.json({ error: 'User not found' }, 404)
+    }
+    
+    const user = userRecords[0]
+    const isValid = await verifyPassword(currentPassword, user.passwordHash)
+    if (!isValid) {
+      return c.json({ error: 'Incorrect current password' }, 400)
+    }
+
+    const { hashPassword } = await import('../../utils/crypto')
+    const newHash = await hashPassword(newPassword)
+    
+    await db.update(wbUsers).set({ passwordHash: newHash }).where(eq(wbUsers.id, userPayload.sub))
+    
+    return c.json({ success: true, message: 'Password changed successfully' })
+  } catch (err: any) {
+    return c.json({ success: false, error: err.message }, 500)
+  }
 })
 
 export default authApp

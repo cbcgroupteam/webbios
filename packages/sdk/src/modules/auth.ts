@@ -25,4 +25,18 @@ export class AuthModule {
   async me() {
     return this.client.get('/auth/me');
   }
+
+  /**
+   * Updates the authenticated user's profile.
+   */
+  async updateProfile(data: { firstName: string; lastName: string; avatarUrl?: string }) {
+    return this.client.post('/auth/update-profile', data);
+  }
+
+  /**
+   * Changes the user's password.
+   */
+  async changePassword(data: { currentPassword: string; newPassword: string }) {
+    return this.client.post('/auth/change-password', data);
+  }
 }

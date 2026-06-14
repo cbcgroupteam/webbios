@@ -38,6 +38,17 @@ export const DashboardLayout = ({ children }: LayoutProps) => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [cdnUrl, setCdnUrl] = useState('https://cdn.webbios.dev');
+
+  useEffect(() => {
+    webbios.settings.getSettings().then(settings => {
+      if (settings['system.cdn_url']) {
+        let url = settings['system.cdn_url'];
+        if (url.startsWith('"')) url = JSON.parse(url);
+        setCdnUrl(url);
+      }
+    }).catch(console.error);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -95,10 +106,20 @@ export const DashboardLayout = ({ children }: LayoutProps) => {
 
     // Determine localized label
     const currentLang = i18n.language; // 'en' or 'vi'
-    const localizedLabel = apiItem.translations?.[currentLang] || apiItem.label || apiItem.title;
+    
+    let translationsObj: any = apiItem.translations;
+    if (typeof translationsObj === 'string') {
+      try {
+        translationsObj = JSON.parse(translationsObj);
+      } catch (e) {
+        translationsObj = {};
+      }
+    }
+    
+    const localizedLabel = translationsObj?.[currentLang] || apiItem.label || apiItem.title;
 
     // Determine if it's a category
-    const isCategory = apiItem.translations?.isCategory || false;
+    const isCategory = translationsObj?.isCategory || false;
 
     let iconEl = IconCmp ? <IconCmp size={16} strokeWidth={1.5} /> : null;
 
@@ -304,8 +325,12 @@ export const DashboardLayout = ({ children }: LayoutProps) => {
                 className="flex items-center space-x-2 text-cf-gray-text hover:text-cf-text ml-2 focus:outline-none"
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
               >
-                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center text-blue-700 font-bold border border-blue-200">
-                  {user?.firstName?.charAt(0) || <User size={14} />}
+                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center text-blue-700 font-bold border border-blue-200 overflow-hidden">
+                  {user?.avatarUrl ? (
+                    <img src={`${cdnUrl.replace(/\/$/, '')}${user.avatarUrl.startsWith('/') ? '' : '/'}${user.avatarUrl}`} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                  ) : (
+                    user?.firstName?.charAt(0) || <User size={14} />
+                  )}
                 </div>
               </button>
 

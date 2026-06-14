@@ -45,7 +45,7 @@
 
 ### 1.1. WebbiOS là gì?
 
-**WebbiOS** (Webbi Open System) là một **nền tảng mở đa năng** cho phép xây dựng mọi loại website và hệ thống quản lý dành cho doanh nghiệp nhỏ và vừa (SMB). WebbiOS được xây dựng **100% trên hạ tầng Cloudflare** (Workers, D1, R2, KV, Queues, Pages, CDN).
+**WebbiOS** (Webbi Open System) là một **Nền tảng tăng trưởng doanh nghiệp thế hệ mới**, tiếng Anh gọi là **Next-Gen Business Growth Platform**, cho phép xây dựng mọi loại website/app mobile, hệ thống quản lý nội bộ, và bộ công cụ (dạng app) dành cho doanh nghiệp nhỏ và vừa (SMB). WebbiOS được xây dựng **100% trên hạ tầng Cloudflare** (Workers, D1, R2, KV, Queues, Pages, CDN).
 
 WebbiOS không giới hạn ở thương mại điện tử. Bằng kiến trúc **Core Kernel + Solution Suite + Blueprint**, WebbiOS có thể trở thành: website bán hàng, web công ty, blog, hệ thống quản lý trường học, nền tảng gia phả, hệ thống đặt lịch spa/nhà hàng — hoặc bất kỳ nghiệp vụ nào khác.
 
@@ -74,16 +74,19 @@ Sự khác biệt cốt lõi: WebbiOS **không giới hạn bởi phần cứng*
 ### 1.3. Hệ sinh thái Webbi
 
 ```
-Webbi (webbi.vn)                    ← Thương hiệu mẹ
+Webbi                               ← Thương hiệu mẹ
 │
-├── WebbiOS (os.webbi.vn)           ← Platform / Engine chính
+├── WebbiOS                         ← Platform / Engine chính
 │   ├── Core API                    ← Nhân hệ thống
 │   ├── Dashboard                   ← Giao diện quản trị
-│   └── App Marketplace             ← Cửa hàng ứng dụng
-│
+│   └── App Marketplace             ← Kho ứng dụng
+├── WebbiPlatform                   ← Platform
+│   ├── Platform API (platform.webbios.dev) ← Platform API
+│   ├── Platform Dashboard (admin.webbios.dev) ← Giao diện quản trị Platform (sử dụng chính WebbiOS để xây dựng)
+│   └── Platform Web (webbios.dev)  ← Trang giới thiệu về nền tảng WebbiOS
+│   └── Webbi Developer Portal (docs.webbios.dev) ← Tài liệu và API cho lập trình viên
 ├── WebbiSDK                        ← Bộ công cụ lập trình cho developer (npm)
 ├── WebbiCLI                        ← Command line tool (scaffold, deploy, debug)
-├── Webbi Developer Portal          ← Tài liệu và API cho lập trình viên (developers.webbi.vn)
 ├── Webbi Mail                      ← Email miễn phí cho khách hàng
 │
 ├── Gói dịch vụ:
@@ -91,8 +94,9 @@ Webbi (webbi.vn)                    ← Thương hiệu mẹ
 │   ├── Webbi Pro                   ← Gói chuyên nghiệp
 │   └── Webbi Enterprise            ← Gói doanh nghiệp (custom)
 │
+├── Webbi.vn                        ← Kênh phân phối WebbiOS tại thị trường Việt Nam
+├── getwebbi.com                    ← Kênh phân phối WebbiOS thị trường quốc tế
 └── Dịch vụ tiện ích khác           ← Webbi + <tên dịch vụ>
-```
 
 ### 1.4. Hệ thống Blueprint (Thay thế Chế độ hoạt động)
 
@@ -101,7 +105,7 @@ Thay vì 2 chế độ cố định (ERP-only / Full), WebbiOS sử dụng **Blu
 | Blueprint | Core Kernel | Web Foundation | Suite | Theme | Doanh thu Tier 3 |
 |---|---|---|---|---|---|
 | **Web Bán hàng** | ✅ | ✅ | Commerce | starter-shop | ✅ Payments + Shipping |
-| **Mini-ERP** | ✅ | ❌ | Commerce | *(không cần)* | ✅ Payments + Shipping |
+| **Phần mềm quản lý** | ✅ | ❌ | Commerce | *(không cần)* | ✅ Payments + Shipping |
 | **Web Công ty** | ✅ | ✅ | *(không cần)* | starter-corporate | ❌ |
 | **Landing Page** | ✅ | ✅ | *(không cần)* | starter-landing | ❌ |
 | **Blog** | ✅ | ✅ | *(không cần)* | starter-blog | ❌ |
@@ -137,8 +141,15 @@ WebbiOS kết hợp mô hình phân phối của **WordPress** (bàn giao source
 4. **Hiệu năng Edge & 4-Tier Cache** — Nhanh vô đối với CDN Cache, API Cache, KV Cache và D1 Edge SQLite.
 5. **Đa năng qua Blueprint** — Một Core Kernel duy nhất phục vụ mọi loại website & hệ thống quản lý.
 6. **Suite/App-as-Worker** — Mỗi Suite/App là Worker độc lập, cách ly hoàn toàn, cài/gỡ không ảnh hưởng hệ thống.
-7. **Cài đặt 1-Click Automation** — Khách không cần kiến thức IT, WebbiOS tự deploy qua Cloudflare API.
-8. **Hệ sinh thái Webbi** — SDK, CLI, Mail, Marketplace — đầy đủ công cụ cho developer và khách hàng.
+| Cài đặt 1-Click Automation | Khách không cần kiến thức IT, WebbiOS tự deploy qua Cloudflare API. |
+| Hệ sinh thái Webbi | SDK, CLI, Mail, Marketplace — đầy đủ công cụ cho developer và khách hàng. |
+
+### 1.7. Ba nhóm nghiệp vụ cốt lõi
+
+WebbiOS định hướng cung cấp 3 nhóm nghiệp vụ:
+1. **Tạo web/app**: Mặc định sẽ có các phân hệ quản lý nội bộ đi kèm.
+2. **Phần mềm quản lý nội bộ**: CRM, HRM, vv... nếu khách chỉ dùng phần mềm thì mặc định không có giao diện web/app (có thể cài thêm sau).
+3. **Kho ứng dụng không giới hạn**: Cung cấp AI Chatbot, AI Writer, SMS/Email Marketing, Auto-post MXH, v.v. để hỗ trợ doanh nghiệp tăng trưởng. Kho ứng dụng là một thành phần built-in của WebbiOS Core.
 
 ---
 
@@ -146,14 +157,16 @@ WebbiOS kết hợp mô hình phân phối của **WordPress** (bàn giao source
 
 ### 2.1. Tầm nhìn
 
-> **"WebbiOS — Open System for Modern Commerce"**
+> **"WebbiOS — Open Source System for Modern Commerce"**
 
-Biến WebbiOS trở thành **nền tảng mở hàng đầu** cho thương mại điện tử và quản lý bán hàng tại Việt Nam và Đông Nam Á — nơi mà:
+Định hướng chiến lược lớn nhất của WebbiOS là trở thành một nền tảng **Mã nguồn mở (Open Source)** được công bố công khai trên **GitHub** (với các nguyên tắc bảo vệ lõi doanh thu nghiêm ngặt). Mục tiêu là xây dựng WebbiOS trở thành một **nền tảng mở hàng đầu** cho thương mại điện tử và quản lý bán hàng tại Việt Nam và Đông Nam Á — nơi mà:
 
-- Mọi doanh nghiệp đều có thể **sở hữu** hệ thống của mình (không phụ thuộc vendor)
-- Mọi developer đều có thể **đóng góp** vào hệ sinh thái (theme, app, plugin)
-- Mọi đối tác đều có thể **kinh doanh** trên nền tảng (reseller, agency, SaaS)
-- Chi phí vận hành **tiệm cận 0** nhờ edge computing
+- Cộng đồng lập trình viên toàn cầu có thể **đóng góp mã nguồn**, phát triển tính năng, và cùng nhau nâng cao giá trị cốt lõi của WebbiOS.
+- Mọi doanh nghiệp đều có thể **sở hữu** hệ thống của mình, tự do tải về từ GitHub, tự triển khai trên tài khoản Cloudflare cá nhân (không bị lock-in, không phụ thuộc vendor).
+- Ranh giới rõ ràng: Chỉ `WebbiOS Core`, `WebbiSDK`, `WebbiCLI` là Open Source (Giấy phép **AGPLv3**). Toàn bộ kho Ứng dụng (Apps) và Giao diện (Themes) cao cấp là **Closed Source**, chỉ dành cho hệ sinh thái khách hàng chính thức của Webbi.
+- Mọi kết nối với đối tác (Thanh toán, Vận chuyển) đều được gọi qua `Platform API Gateway (platform.webbios.dev)` để bảo vệ dòng tiền hoa hồng Tầng 3.
+- Mọi developer đều có thể **phát triển** và kinh doanh trong hệ sinh thái (theme, app, plugin) thông qua Marketplace.
+- Chi phí vận hành **tiệm cận 0** nhờ sức mạnh của kiến trúc Serverless/Edge computing trên Cloudflare.
 
 ### 2.2. Mục tiêu kinh doanh
 
@@ -409,7 +422,7 @@ WebbiOS/
 
 > ⚠️ Không có `storefront/`, `themes/`, hay marketplace apps trong Core repo — chúng nằm ở repo riêng.
 >
-> **WebbiOS Platform** (`api.webbios.dev`, `webbios.dev`) nằm ở repo riêng biệt (`WebbiPlatform`), sử dụng chính WebbiOS Core làm nền tảng admin (dogfooding). Xem chi tiết tại `Platform_PRD.md`.
+> **WebbiOS Platform** (`platform.webbios.dev`, `webbios.dev`) nằm ở repo riêng biệt (`WebbiPlatform`), sử dụng chính WebbiOS Core làm nền tảng admin (dogfooding). Xem chi tiết tại `Platform_PRD.md`.
 
 ### 6.3. Npm Packages (Published lên npm registry)
 

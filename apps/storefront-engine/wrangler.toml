@@ -1,0 +1,20 @@
+name = "webbios-storefront-engine"
+main = "src/index.tsx"
+compatibility_date = "2024-03-20"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "webbios_core_db"
+database_id = "0fd4eaa5-30b2-4933-a2fb-d06bb4f47948"
+
+[[kv_namespaces]]
+binding = "CACHE_KV"
+id = "03e1536bd4444ed3a6e1e84e523ec48e"
+
+[[r2_buckets]]
+binding = "STORAGE"
+bucket_name = "webbios-platform"

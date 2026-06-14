@@ -7,3 +7,12 @@ build
 .env.*
 !.env.example
 .DS_Store
+
+# Excluded by user
+branding/
+docs/
+scripts/
+
+# Wrangler cache
+.wrangler
+**/.wrangler/

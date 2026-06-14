@@ -30,6 +30,14 @@ Configuration options for the SDK.
 
 ## Properties
 
+### adminUpdates
+
+> **adminUpdates**: `AdminUpdatesClient`
+
+Admin Updates module
+
+***
+
 ### auth
 
 > **auth**: [`AuthModule`](/sdk/reference/classes/authmodule/)
@@ -70,6 +78,14 @@ Permissions module
 
 ***
 
+### platform
+
+> **platform**: [`PlatformModule`](/sdk/reference/classes/platformmodule/)
+
+Platform module
+
+***
+
 ### products
 
 > **products**: [`ProductsModule`](/sdk/reference/classes/productsmodule/)
@@ -83,6 +99,14 @@ Products module
 > **roles**: `RolesModule`
 
 Roles module
+
+***
+
+### settings
+
+> **settings**: [`SettingsModule`](/sdk/reference/classes/settingsmodule/)
+
+Settings module
 
 ## Methods
 

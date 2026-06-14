@@ -1,5 +1,6 @@
 {
   "name": "webbios",
+  "version": "1.0.43",
   "private": true,
   "scripts": {
     "build": "turbo run build",
@@ -8,6 +9,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "deploy:api": "turbo run deploy --filter=@webbios/api",
     "deploy:dashboard": "turbo run build --filter=@webbios/dashboard && npx wrangler pages deploy apps/dashboard/dist --project-name webbios-dashboard --branch master",
+    "deploy:storefront": "turbo run deploy --filter=webbios-storefront-engine",
     "deploy:docs": "turbo run build --filter=docs && npx wrangler pages deploy apps/docs/dist --project-name webbios-docs --branch master"
   },
   "devDependencies": {

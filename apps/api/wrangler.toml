@@ -12,3 +12,9 @@ ENVIRONMENT = "production"
 INSTANCE_TYPE = "platform"
 
 JWT_SECRET = "super-secret-key-for-now"
+CLOUDFLARE_API_TOKEN = "cfat_mfbgtG3UBCIcgmxBhLwyJjuefnI43T8HbhmJgjTN1afacf4b"
+CLOUDFLARE_ACCOUNT_ID = "acccd6bae01b7e98690322ac773e1cea"
+
+[[r2_buckets]]
+binding = "STORAGE"
+bucket_name = "webbios-platform"

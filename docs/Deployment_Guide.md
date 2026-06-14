@@ -68,6 +68,63 @@ Tương tự như Dashboard, lệnh này sẽ:
 2. Build ra HTML tĩnh.
 3. Deploy toàn bộ lên Cloudflare Pages vào dự án `webbios-docs`.
 
+### 3.4. Đóng gói App và Phát hành Bản cập nhật
+
+### Cơ chế Upload ZIP
+
+Sau khi hoàn thành phát triển App, toàn bộ source (Worker + Dashboard assets) được đóng gói thành file ZIP và đưa lên R2. Quy tắc đặt tên và đường dẫn trên R2 bucket `webbios-platform` như sau:
+
+- **WebbiOS Core**: `webbios-core/webbios-core-{version}.zip`
+- **Apps/Suites**: `webbios-apps/{app_slug}/webbios-app-{app_slug}-{version}.zip` (lưu ý: version không có chữ `v` ở đầu, ví dụ: `1.0.5`)
+
+> **⚠️ Lưu ý quan trọng cho Apps (Micro-frontend):**
+> Vì Platform Runner được thiết kế dùng chung để deploy các dự án (như Next.js, Hono) yêu cầu quá trình `npm install`, nên khi bạn đóng gói một App tĩnh (chỉ chứa file build HTML/JS/CSS trong thư mục `dist`), bạn bắt buộc phải tạo một file `package.json` "ảo" bên trong thư mục `dist` trước khi nén zip. 
+> File `package.json` này chỉ cần chứa `dependencies` rỗng và script `build: "echo 'Prebuilt'"` để lừa Platform Runner bỏ qua bước cài đặt gói, tránh lỗi "No package.json found".
+
+### Luồng Testing trên Dev Account
+
+**Tại sao cần Dev Account?** 
+Vì Platform God Instance chạy chính trên WebbiOS Core. Việc update trực tiếp lên Production (Platform) có thể gây lỗi hệ thống quản lý các shop. Do đó, quy trình dev/test cần tuân thủ 3 môi trường:
+
+1. **Local Development (localhost)**
+   - `pnpm dev` để chạy test cục bộ (Wrangler local D1, R2).
+   
+2. **Dev Cloudflare Account** (Sử dụng `CLOUDFLARE_ACCOUNT_ID` trong `.env.dev`)
+   - Dùng để deploy thử nghiệm nghiệm thu (UAT) trên hạ tầng Cloudflare thực tế.
+   - Cấu hình qua file `apps/api/wrangler.toml` (với DB ID của dev account).
+   - Lệnh deploy Dev:
+     ```bash
+     npx wrangler deploy
+     npx wrangler pages deploy ../dashboard/dist --project-name webbios-dashboard-dev
+     ```
+
+3. **Production Cloudflare Account** (Sử dụng `CLOUDFLARE_ACCOUNT_ID` trong `.env.platform`)
+   - Chỉ deploy/publish khi Dev test đã PASS 100%.
+   - Chạy lệnh publish tự động đóng gói và đăng ký bản cập nhật:
+     ```bash
+     npx tsx scripts/publish.ts 1.0.30 "Nội dung cập nhật"
+     ```
+
+### Phát hành Bản cập nhật cho Khách hàng
+
+Toàn bộ quy trình từ đóng gói, loại bỏ cache (để giảm dung lượng ZIP), tải lên R2, và gọi API đăng ký với Platform đều được tự động hóa thông qua script `publish.ts`.
+
+Đảm bảo bạn đã cấu hình các biến môi trường sau trong file `.env` hoặc truyền trực tiếp vào terminal:
+- `CLOUDFLARE_ACCOUNT_ID`
+- `CLOUDFLARE_API_TOKEN`
+
+Thực thi lệnh sau:
+```bash
+# Đứng tại thư mục gốc (E:\WebbiOS)
+# Cú pháp: npx tsx scripts/publish.ts <version> <"Nội dung cập nhật">
+npx tsx scripts/publish.ts 1.0.23 "Bản cập nhật tối ưu dung lượng gói cài đặt"
+```
+
+Script sẽ thực hiện các bước sau:
+1. **Đóng gói mã nguồn (Archive):** Sử dụng `tar` để nén mã nguồn, tự động loại trừ `.turbo`, `dist`, và các file `*.zip` cũ để đảm bảo dung lượng file siêu nhẹ (~500KB).
+2. **Upload lên Cloudflare R2 (Remote):** Tự động gọi `wrangler r2 object put` để đẩy lên bucket `webbios-platform`.
+3. **Đăng ký phiên bản mới:** Tự động gọi `POST https://platform.webbios.dev/api/v1/versions` để ghi nhận bản phát hành vào database của Platform. Lúc này các Shop sẽ thấy có bản cập nhật mới trên Dashboard.
+
 ---
 
 ## 4. Quản lý Cơ sở dữ liệu (D1 Database & SQL Migration)

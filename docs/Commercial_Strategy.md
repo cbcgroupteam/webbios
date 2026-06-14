@@ -10,9 +10,9 @@
 
 ## 1. Executive Summary (Tóm tắt Lãnh đạo)
 
-WebbiOS không chỉ là một phần mềm tạo website bán hàng (Website Builder). WebbiOS là một **"Hệ điều hành Web đa năng" (Multi-vertical Platform)** được thiết kế để giải quyết bài toán hóc búa nhất của các startup SaaS: **Làm sao để vừa phân phối miễn phí để chiếm lĩnh thị trường nhanh nhất, vừa đạt được biên lợi nhuận cao nhất.**
+WebbiOS không chỉ là một phần mềm tạo website bán hàng (Website Builder) hay một hệ thống Mini-ERP. WebbiOS là một **"Nền tảng tăng trưởng doanh nghiệp thế hệ mới" (Next-Gen Business Growth Platform)** được thiết kế để giải quyết bài toán hóc búa nhất của các startup SaaS: **Làm sao để vừa phân phối miễn phí để chiếm lĩnh thị trường nhanh nhất, vừa đạt được biên lợi nhuận cao nhất.**
 
-Bằng kiến trúc **Core Kernel + Solution Suite + Blueprint**, WebbiOS có thể phục vụ mọi loại khách hàng: từ shop bán hàng, web công ty, trường học, spa, đến hệ thống quản lý nội bộ — tất cả trên cùng một nền tảng.
+Bằng kiến trúc **Core Kernel + Solution Suite + Blueprint + App Store**, WebbiOS định hướng cung cấp 3 nhóm nghiệp vụ: (1) Tạo web/app kèm quản lý, (2) Phần mềm quản lý nội bộ, và (3) Kho ứng dụng mở rộng không giới hạn. WebbiOS có thể phục vụ mọi loại khách hàng: từ shop bán hàng, web công ty, trường học, spa, đến hệ thống quản lý nội bộ — tất cả trên cùng một nền tảng.
 
 Bằng việc tận dụng 100% hạ tầng Serverless (Cloudflare) triển khai trực tiếp lên tài khoản khách hàng, **WebbiOS có chi phí vận hành hạ tầng (Server/Hosting) tiệm cận 0 đồng**. Điều này cho phép chúng tôi sử dụng gói "Webbi Free" như một "Con ngựa thành Troy" để thu hút hàng chục ngàn doanh nghiệp vừa và nhỏ (SMBs). 
 

@@ -27,15 +27,27 @@ Interface representing a dynamic menu item.
 
 ***
 
-### isActive
+### isBeta?
 
-> **isActive**: `boolean`
+> `optional` **isBeta?**: `boolean`
 
 ***
 
-### isBeta
+### isSystem
 
-> **isBeta**: `boolean`
+> **isSystem**: `boolean`
+
+***
+
+### isVisible
+
+> **isVisible**: `boolean`
+
+***
+
+### label
+
+> **label**: `string`
 
 ***
 
@@ -51,9 +63,9 @@ Interface representing a dynamic menu item.
 
 ***
 
-### permissionId
+### permissionSlug
 
-> **permissionId**: `string` \| `null`
+> **permissionSlug**: `string` \| `null`
 
 ***
 
@@ -63,6 +75,6 @@ Interface representing a dynamic menu item.
 
 ***
 
-### title
+### translations?
 
-> **title**: `string`
+> `optional` **translations?**: `any`
