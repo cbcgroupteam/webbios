@@ -1,0 +1,20 @@
+name = "webbios-api-wbshop9050"
+main = "src/index.ts"
+compatibility_date = "2024-04-05"
+account_id = "acccd6bae01b7e98690322ac773e1cea"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "webbios_db_shop9050"
+database_id = "43d850c2-1fc4-4d74-8f86-ffafd45a7aa9"
+
+[[r2_buckets]]
+binding = "STORAGE"
+bucket_name = "webbios-platform"
+
+[vars]
+CLOUDFLARE_ACCOUNT_ID = "acccd6bae01b7e98690322ac773e1cea"
+
+[[kv_namespaces]]
+binding = "CACHE_KV"
+id = "03e1536bd4444ed3a6e1e84e523ec48e"

@@ -12,7 +12,6 @@ ENVIRONMENT = "production"
 INSTANCE_TYPE = "platform"
 
 JWT_SECRET = "super-secret-key-for-now"
-CLOUDFLARE_API_TOKEN = "cfat_mfbgtG3UBCIcgmxBhLwyJjuefnI43T8HbhmJgjTN1afacf4b"
 CLOUDFLARE_ACCOUNT_ID = "acccd6bae01b7e98690322ac773e1cea"
 
 [[r2_buckets]]
@@ -21,4 +20,4 @@ bucket_name = "webbios-platform"
 
 [[kv_namespaces]]
 binding = "CACHE_KV"
-id = "795db2837d3648eb84a3da7e4ba12e12"
+id = "03e1536bd4444ed3a6e1e84e523ec48e"
