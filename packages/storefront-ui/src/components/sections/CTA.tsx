@@ -35,11 +35,19 @@ export function CTA({
           
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button size="lg" className="h-12 px-8 text-base rounded-full" asChild>
-              <a href={primaryCtaHref}>{primaryCtaText}</a>
+              <a 
+                href={primaryCtaHref}
+                target={primaryCtaHref?.startsWith('http') ? '_blank' : undefined}
+                rel={primaryCtaHref?.startsWith('http') ? 'noopener noreferrer' : undefined}
+              >{primaryCtaText}</a>
             </Button>
             {secondaryCtaText && (
               <Button size="lg" variant="outline" className="h-12 px-8 text-base rounded-full" asChild>
-                <a href={secondaryCtaHref}>{secondaryCtaText}</a>
+                <a 
+                  href={secondaryCtaHref}
+                  target={secondaryCtaHref?.startsWith('http') ? '_blank' : undefined}
+                  rel={secondaryCtaHref?.startsWith('http') ? 'noopener noreferrer' : undefined}
+                >{secondaryCtaText}</a>
               </Button>
             )}
           </div>

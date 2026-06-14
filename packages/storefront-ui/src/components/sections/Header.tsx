@@ -38,6 +38,8 @@ export function Header({
               key={idx}
               href={link.href}
               className="transition-colors hover:text-foreground/80 text-foreground/60"
+              target={link.href.startsWith('http') ? '_blank' : undefined}
+              rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
             >
               {link.label}
             </a>
@@ -46,7 +48,11 @@ export function Header({
         
         <div className="flex items-center gap-4">
           <Button variant="default" asChild>
-            <a href={ctaHref}>{ctaText}</a>
+            <a 
+              href={ctaHref}
+              target={ctaHref.startsWith('http') ? '_blank' : undefined}
+              rel={ctaHref.startsWith('http') ? 'noopener noreferrer' : undefined}
+            >{ctaText}</a>
           </Button>
         </div>
       </Container>

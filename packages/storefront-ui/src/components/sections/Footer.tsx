@@ -49,6 +49,8 @@ export function Footer({
                     <a
                       href={link.href}
                       className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                      target={link.href.startsWith('http') ? '_blank' : undefined}
+                      rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                     >
                       {link.label}
                     </a>
@@ -59,12 +61,8 @@ export function Footer({
           ))}
         </div>
         
-        <div className="pt-8 border-t border-border/40 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
+        <div className="pt-8 border-t border-border/40 text-center text-sm text-muted-foreground">
           <p>{copyright}</p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-foreground transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-foreground transition-colors">Terms of Service</a>
-          </div>
         </div>
       </Container>
     </footer>

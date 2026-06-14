@@ -45,12 +45,20 @@ export function Hero({
         <div className="flex flex-col sm:flex-row gap-4 mb-16">
           {primaryCtaText && (
             <Button size="lg" className="h-14 px-8 text-lg rounded-full" asChild>
-              <a href={primaryCtaHref}>{primaryCtaText}</a>
+              <a 
+                href={primaryCtaHref}
+                target={primaryCtaHref?.startsWith('http') ? '_blank' : undefined}
+                rel={primaryCtaHref?.startsWith('http') ? 'noopener noreferrer' : undefined}
+              >{primaryCtaText}</a>
             </Button>
           )}
           {secondaryCtaText && (
             <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full" asChild>
-              <a href={secondaryCtaHref}>{secondaryCtaText}</a>
+              <a 
+                href={secondaryCtaHref}
+                target={secondaryCtaHref?.startsWith('http') ? '_blank' : undefined}
+                rel={secondaryCtaHref?.startsWith('http') ? 'noopener noreferrer' : undefined}
+              >{secondaryCtaText}</a>
             </Button>
           )}
         </div>

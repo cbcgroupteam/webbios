@@ -55,6 +55,8 @@ export function Features({ title, subtitle, features, columns = 4 }: FeaturesPro
                 <a 
                   href={feature.link}
                   className="text-primary font-medium hover:underline inline-flex items-center gap-1"
+                  target={feature.link?.startsWith('http') ? '_blank' : undefined}
+                  rel={feature.link?.startsWith('http') ? 'noopener noreferrer' : undefined}
                 >
                   {feature.linkLabel || 'Read more'} &rarr;
                 </a>
