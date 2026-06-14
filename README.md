@@ -5,10 +5,17 @@
 
   <p>
     <a href="https://webbios.dev">Website</a> •
-    <a href="https://docs.webbios.dev">Documentation</a> •
+    <a href="https://docs.webbios.dev/docs">Documentation</a> •
     <a href="https://www.facebook.com/webbios.dev">Facebook Fanpage</a>
   </p>
 </div>
+
+> [!WARNING]
+> **🚧 EARLY ALPHA / WORK IN PROGRESS 🚧**
+> 
+> WebbiOS is currently under heavy active development. The core architecture and essential applications are expected to reach a stable state by the **end of June 2026**. 
+> 
+> At this stage, the codebase is unstable, features are incomplete, and documentation may be outdated. **Please do not use this in production yet.** Bug reports regarding incomplete features or installation issues may not be addressed until the official Beta release.
 
 ---
 
