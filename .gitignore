@@ -12,6 +12,7 @@ build
 branding/
 docs/
 scripts/
+apps/docs/
 
 # Wrangler cache
 .wrangler
