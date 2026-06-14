@@ -1,12 +1,12 @@
 <div align="center">
   <h1>WebbiOS</h1>
-  <p><strong>The Open Platform for Modern Business Growth</strong></p>
+  <p><strong>Next-Gen Business Growth Platform</strong></p>
   <p>Build websites, apps, and management systems on Cloudflare's edge network. Open source. Free forever. Deploy in seconds.</p>
 
   <p>
     <a href="https://webbios.dev">Website</a> •
     <a href="https://docs.webbios.dev">Documentation</a> •
-    <a href="https://discord.gg/webbios">Discord</a>
+    <a href="https://www.facebook.com/webbios.dev">Facebook Fanpage</a>
   </p>
 </div>
 
@@ -79,11 +79,11 @@ WebbiOS is architected as a **Monorepo** (managed by `pnpm` and `Turborepo`) and
    pnpm run dev
    ```
 
-Check the [Documentation](https://docs.webbios.dev) for detailed guides on how to initialize the database and deploy to Cloudflare.
+Check the [Documentation](https://docs.webbios.dev/docs) for detailed guides on how to initialize the database and deploy to Cloudflare.
 
 ## 🤝 Contributing
 
-We welcome contributions from the community! Whether you want to fix a bug, improve documentation, or build a new feature, please check our [Contributing Guide](https://docs.webbios.dev/contributing) first.
+We welcome contributions from the community! Whether you want to fix a bug, improve documentation, or build a new feature, please check our [GitHub Issues](https://github.com/chieunt/webbios/issues) or create a Pull Request.
 
 1. Fork the repository
 2. Create a new branch (`git checkout -b feature/amazing-feature`)
