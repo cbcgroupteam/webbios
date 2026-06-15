@@ -67,7 +67,7 @@ export function Header({
             {logoImage && (
               <img src={logoImage} alt={logoText} className="h-8 w-auto" />
             )}
-            <span className="text-xl font-bold text-[#56C0F8] tracking-tight">
+            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#56C0F8] to-purple-500 tracking-tight">
               {logoText}
             </span>
           </a>
