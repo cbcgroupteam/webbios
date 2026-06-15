@@ -72,7 +72,7 @@ export function Hero({
             </p>
             <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-70 grayscale hover:grayscale-0 transition-all duration-300">
               {logos.map((logo, idx) => (
-                <img key={idx} src={logo.src} alt={logo.alt} className="h-8 md:h-10 w-auto" />
+                <img key={idx} src={logo.src} alt={logo.alt} width="120" height="40" className="h-8 md:h-10 w-auto" />
               ))}
             </div>
           </div>

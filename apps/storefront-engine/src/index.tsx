@@ -16,20 +16,25 @@ export type Bindings = {
 const app = new Hono<{ Bindings: Bindings }>();
 
 // Simple HTML Document Shell Component
-function Document({ children, title, themeCssUrl }: { children: React.ReactNode, title: string, themeCssUrl?: string }) {
+function Document({ children, title, description, themeCssUrl }: { children: React.ReactNode, title: string, description?: string, themeCssUrl?: string }) {
   return (
     <html lang="en" className="dark">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{title}</title>
+        {description && <meta name="description" content={description} />}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" as="style" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
         <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
-        {/* We assume base Tailwind CSS is built into a public asset */}
+        {/* Preload and link base Tailwind CSS */}
+        <link rel="preload" href="/styles.css" as="style" />
         <link href="/styles.css" rel="stylesheet" />
         {themeCssUrl && <link href={themeCssUrl} rel="stylesheet" />}
       </head>
@@ -70,7 +75,7 @@ app.get('*', async (c) => {
     }
 
     const stream = await renderToReadableStream(
-      <Document title={page.title}>
+      <Document title={page.title} description={page.description}>
         <SectionRenderer sections={page.sections} currentPath={path} />
       </Document>,
       {

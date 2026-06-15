@@ -65,7 +65,7 @@ export function Header({
         <div className="flex items-center gap-2">
           <a href="/" className="flex items-center gap-2">
             {logoImage && (
-              <img src={logoImage} alt={logoText} className="h-8 w-auto" />
+              <img src={logoImage} alt={logoText} width="32" height="32" className="h-8 w-auto" />
             )}
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#56C0F8] to-purple-500 tracking-tight">
               {logoText}
@@ -185,7 +185,7 @@ export function Header({
               
               return (
                 <div key={idx} className="flex flex-col gap-3">
-                  <button className="mobile-submenu-btn flex justify-between items-center w-full text-left font-semibold text-foreground text-lg" aria-expanded="false">
+                  <button className="mobile-submenu-btn flex justify-between items-center w-full text-left font-semibold text-foreground text-lg" aria-expanded="false" aria-label="Toggle Submenu">
                     {link.label}
                     <svg className="submenu-icon transition-transform text-muted-foreground" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M5 12h14"/>
