@@ -1266,6 +1266,11 @@ body {
   letter-spacing: 0.1em;
 }
 
+.text-\[\#56C0F8\] {
+  --tw-text-opacity: 1;
+  color: rgb(86 192 248 / var(--tw-text-opacity, 1));
+}
+
 .text-accent-foreground {
   color: hsl(var(--accent-foreground));
 }
