@@ -60,6 +60,7 @@ WebbiOS is architected as a **Monorepo** (managed by `pnpm` and `Turborepo`) and
 - **Universal Storefront Engine**: JSON-driven theme rendering using Edge SSR and streaming.
 - **4-Tier Caching**: Advanced caching strategy (CDN -> Worker Cache -> KV -> D1) for maximum performance.
 - **Role-Based Access Control (RBAC)**: Fine-grained permissions for users, API keys, and apps.
+- **Global Multi-Language Support**: Comprehensive internationalization covering the Dashboard, App Store, and Settings in 11+ languages (English, Vietnamese, Japanese, Korean, French, German, Spanish, etc.).
 - **Zero Cost to Start**: Designed to run entirely within Cloudflare's generous free tier.
 
 ## 📦 Getting Started
