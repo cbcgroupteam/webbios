@@ -51,9 +51,10 @@ export function Features({ title, subtitle, features, columns = 4, ctaText, ctaH
             <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
               {feature.title}
             </h3>
-            <p className="text-muted-foreground leading-relaxed flex-1">
-              {feature.description}
-            </p>
+            <p 
+              className="text-muted-foreground leading-relaxed flex-1"
+              dangerouslySetInnerHTML={{ __html: feature.description }}
+            />
             {feature.link && (
               <div className="mt-4">
                 <a 

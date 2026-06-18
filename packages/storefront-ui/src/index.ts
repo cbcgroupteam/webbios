@@ -10,6 +10,7 @@ export * from './components/sections/CTA';
 export * from './components/sections/Footer';
 export * from './components/sections/Blog';
 export * from './components/sections/BlogPost';
+export * from './components/sections/ImageSection';
 
 // Engine
 export * from './engine/SectionRenderer';

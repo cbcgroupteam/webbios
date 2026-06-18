@@ -19,7 +19,7 @@
 > [!WARNING]
 > **🚧 EARLY ALPHA / WORK IN PROGRESS 🚧**
 > 
-> WebbiOS is currently under heavy active development. The core architecture and essential applications are expected to reach a stable state by the **end of August 2026**. 
+> WebbiOS is currently under heavy active development. To share this system with the community, we are refining the architecture and codebase. The core platform and essential applications are expected to be fully completed and reach a stable state by **August 25, 2026**.
 > 
 > At this stage, the codebase is unstable, features are incomplete, and documentation may be outdated. **Please do not use this in production yet.** Bug reports regarding incomplete features or installation issues may not be addressed until the official Beta release.
 
@@ -27,9 +27,11 @@
 
 ## 🚀 Overview
 
-**WebbiOS** is an open-source, edge-native operating system for modern web development built entirely on **Cloudflare**. It provides a foundational architecture to rapidly develop, deploy, and scale websites, headless commerce storefronts, and internal tools with zero infrastructure management.
+**WebbiOS started as an internal core engine to solve real business infrastructure pain points for CBC GROUP.** We needed a unified ecosystem to build diverse products—from corporate homepages and cross-border storefronts to internal CRMs, marketing automation, and complex ERP systems.
 
-By leveraging Cloudflare's massive global network, WebbiOS delivers **sub-50ms Time To First Byte (TTFB)** worldwide and is designed to operate at scale for $0 on Cloudflare's Free Tier.
+After witnessing the incredible stability, absolute performance, and zero infrastructure costs it delivered, we realized this was too powerful to keep to ourselves. We decided to release the core platform as open-source under the AGPLv3 license to empower the global developer community.
+
+Today, **WebbiOS** is a Next-Gen Business Growth Platform. An open-source, edge-native operating system built entirely on Cloudflare to rapidly develop and scale high-performance business applications and enterprise systems with zero infrastructure management.
 
 ## 🏗️ Architecture
 
@@ -55,15 +57,40 @@ WebbiOS is architected as a **Monorepo** (managed by `pnpm` and `Turborepo`) and
 - **Frameworks**: React 19, Vite, Hono, Tailwind CSS
 - **Tooling**: TypeScript, pnpm, Turborepo
 
+## 💎 The Platform
+
+Built from the ground up for the Edge. Four independent pillars that together create the most powerful open-source business growth platform:
+
+1. **The Kernel API**: The heart of WebbiOS. A headless API gateway running on Cloudflare Edge with D1 database and KV Cache.
+2. **Universal Dashboard**: Your control plane. A ready-to-use admin panel with RBAC, Custom Domains, and Webhooks built-in.
+3. **Themes**: The presentation layer. Load dynamic JSON-based storefronts. Customize everything with our visual Theme Builder.
+4. **Apps**: The extensibility engine. Inject Micro-Frontends directly into your dashboard to expand business logic infinitely.
+
 ## ✨ Key Features
 
-- **Edge Native**: 100% serverless, zero cold starts, deployed to 300+ cities globally.
-- **Micro-Frontend Architecture**: Dynamically load applications inside the dashboard via Module Federation.
-- **Universal Storefront Engine**: JSON-driven theme rendering using Edge SSR and streaming.
-- **4-Tier Caching**: Advanced caching strategy (CDN -> Worker Cache -> KV -> D1) for maximum performance.
-- **Role-Based Access Control (RBAC)**: Fine-grained permissions for users, API keys, and apps.
-- **Global Multi-Language Support**: Comprehensive internationalization covering the Dashboard, App Store, and Settings in 11+ languages (English, Vietnamese, Japanese, Korean, French, German, Spanish, etc.).
-- **Zero Cost to Start**: Designed to run entirely within Cloudflare's generous free tier.
+### Core Platform & Security
+- **Role-Based Access Control**: Granular permissions. Control what every user can see and do.
+- **Custom Domains & SSL**: Map domains instantly with automatic SSL provisioning.
+- **API Keys Management**: Securely generate and manage API keys for system integrations.
+- **1-Click OTA Updates**: Update the Core, Apps, and Themes instantly. Even on the Free tier.
+- **Global Edge Network**: Deployed across 300+ cities worldwide for zero latency.
+- **Auto-Scaling**: Handles traffic spikes effortlessly without manual intervention.
+
+### Developer Experience
+- **Serverless Database**: Powered by Cloudflare D1. Relational data without servers.
+- **Edge Native Logic**: Run complex business logic directly on Cloudflare Workers.
+- **Real-time Webhooks**: Subscribe to system events to trigger external workflows.
+- **Micro-Frontends**: Load apps dynamically into the dashboard without bloating the core.
+- **4-Tier Caching**: Advanced caching utilizing KV, Memory, and Edge cache.
+- **Automated Bindings**: Connect to R2 storage and queues effortlessly.
+
+### Commerce & Content
+- **Universal Storefront**: Ready-to-use e-commerce templates optimized for conversion.
+- **Built-in CMS**: Manage content, blogs, and pages with a powerful visual editor.
+- **SEO Optimized**: Server-side rendering and dynamic meta tags for maximum visibility.
+- **Omni-channel Ready**: Headless architecture lets you sell anywhere, on any device.
+- **App/Theme Manager**: Install new capabilities from the marketplace with one click.
+- **Global Multi-Language**: Comprehensive internationalization covering the Dashboard, App Store, and Settings in 11+ languages.
 
 ## 📦 Getting Started
 
@@ -76,7 +103,7 @@ WebbiOS is architected as a **Monorepo** (managed by `pnpm` and `Turborepo`) and
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/chieunt/webbios.git
+   git clone https://github.com/cbcgroupteam/webbios.git
    cd webbios
    ```
 
@@ -93,11 +120,11 @@ WebbiOS is architected as a **Monorepo** (managed by `pnpm` and `Turborepo`) and
    pnpm run dev
    ```
 
-Check the [Documentation](https://docs.webbios.dev/docs) for detailed guides on how to initialize the database and deploy to Cloudflare.
+Check the [Documentation](https://docs.webbios.dev) for detailed guides on how to initialize the database and deploy to Cloudflare.
 
 ## 🤝 Contributing
 
-We welcome contributions from the community! Whether you want to fix a bug, improve documentation, or build a new feature, please check our [GitHub Issues](https://github.com/chieunt/webbios/issues) or create a Pull Request.
+We welcome contributions from the community! Whether you want to fix a bug, improve documentation, or build a new feature, please check our [GitHub Issues](https://github.com/cbcgroupteam/webbios/issues) or create a Pull Request.
 
 1. Fork the repository
 2. Create a new branch (`git checkout -b feature/amazing-feature`)

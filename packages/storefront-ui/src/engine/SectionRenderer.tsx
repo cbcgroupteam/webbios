@@ -8,6 +8,7 @@ import { CTA } from '../components/sections/CTA';
 import { Footer } from '../components/sections/Footer';
 import { Blog } from '../components/sections/Blog';
 import { BlogPost } from '../components/sections/BlogPost';
+import { ImageSection } from '../components/sections/ImageSection';
 
 // We will map section types to components here
 const sectionRegistry: Record<string, React.ComponentType<any>> = {
@@ -18,6 +19,7 @@ const sectionRegistry: Record<string, React.ComponentType<any>> = {
   footer: Footer,
   blog: Blog,
   'blog-post': BlogPost,
+  image: ImageSection,
 };
 
 export function registerSection(type: string, component: React.ComponentType<any>) {

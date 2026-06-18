@@ -1,4 +1,5 @@
 import { Settings, ExternalLink, Trash2, CheckCircle2, Play, Square, Search, ArrowUpCircle, Store, RefreshCw, XCircle } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -112,7 +113,7 @@ const AppsPage = () => {
     setUpdatingAppId(app.id);
     try {
       const res = await webbios.client.post('/apps/update', {
-        shopId: 'WBSHOP9050',
+        shopId: 'WEBBIOS_PLATFORM',
         version: app.latestVersion,
         targetId: app.slug
       });
@@ -184,18 +185,21 @@ const AppsPage = () => {
           <div key={app.id} className="bg-surface border border-cf-border rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col">
             <div className="p-5 flex-1">
               <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-blue-50 text-2xl flex items-center justify-center rounded-lg border border-blue-100">
-                    {app.icon}
+                <div className="flex items-center space-x-4 min-w-0">
+                  <div className="w-12 h-12 flex-shrink-0 bg-blue-50 text-2xl flex items-center justify-center rounded-lg border border-blue-100">
+                    {(() => {
+                      const IconComponent = app.icon ? (LucideIcons as any)[app.icon] : (LucideIcons as any)['Box'];
+                      return IconComponent ? <IconComponent size={24} /> : null;
+                    })()}
                   </div>
-                  <div>
-                    <h3 className="text-lg font-medium text-cf-text">{app.name}</h3>
-                    <p className="text-sm text-cf-gray-text">{app.vendor} • v{app.version}</p>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-lg font-medium text-cf-text truncate" title={app.name}>{app.name}</h3>
+                    <p className="text-sm text-cf-gray-text truncate">{app.author} • v{app.version}</p>
                   </div>
                 </div>
-                <div className={`px-2.5 py-1 rounded-full text-xs font-medium border flex items-center space-x-1 ${app.status === 'running' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-gray-50 text-gray-600 border-gray-200'}`}>
-                  {app.status === 'running' ? <CheckCircle2 size={12} className="mr-1"/> : <Square size={12} className="mr-1"/>}
-                  {app.status === 'running' ? t('apps.installed.running') : t('apps.installed.stopped')}
+                <div className={`flex-shrink-0 ml-4 px-2.5 py-1 rounded-full text-xs font-medium border flex items-center space-x-1 ${app.status === 'active' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-gray-50 text-gray-600 border-gray-200'}`}>
+                  {app.status === 'active' ? <CheckCircle2 size={12} className="mr-1"/> : <Square size={12} className="mr-1"/>}
+                  {app.status === 'active' ? t('apps.installed.running', 'Running') : t('apps.installed.stopped', 'Stopped')}
                 </div>
               </div>
               
@@ -263,12 +267,12 @@ const AppsPage = () => {
                 <button className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors" title={t('apps.installed.settings')}>
                   <Settings size={18} />
                 </button>
-                {app.status === 'running' ? (
-                  <button className="p-2 text-gray-500 hover:text-amber-600 hover:bg-amber-50 rounded-md transition-colors" title={t('apps.installed.stop')}>
+                {app.status === 'active' ? (
+                  <button className="p-2 text-gray-500 hover:text-amber-600 hover:bg-amber-50 rounded-md transition-colors" title={t('apps.installed.stop', 'Stop')}>
                     <Square size={18} />
                   </button>
                 ) : (
-                  <button className="p-2 text-gray-500 hover:text-green-600 hover:bg-green-50 rounded-md transition-colors" title={t('apps.installed.restart')}>
+                  <button className="p-2 text-gray-500 hover:text-green-600 hover:bg-green-50 rounded-md transition-colors" title={t('apps.installed.restart', 'Start')}>
                     <Play size={18} />
                   </button>
                 )}

@@ -4,20 +4,16 @@ compatibility_date = "2024-03-20"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "webbios_core_db"
-database_id = "0fd4eaa5-30b2-4933-a2fb-d06bb4f47948"
+database_name = "webbios_db"
+database_id = "fd1e1975-5699-4587-a065-1533c3fafa48"
 
 [vars]
 ENVIRONMENT = "production"
 INSTANCE_TYPE = "platform"
 
 JWT_SECRET = "super-secret-key-for-now"
-CLOUDFLARE_ACCOUNT_ID = "acccd6bae01b7e98690322ac773e1cea"
+CLOUDFLARE_ACCOUNT_ID = "758fa917167175fd22e07a08e402a0c0"
 
 [[r2_buckets]]
 binding = "STORAGE"
 bucket_name = "webbios-platform"
-
-[[kv_namespaces]]
-binding = "CACHE_KV"
-id = "03e1536bd4444ed3a6e1e84e523ec48e"

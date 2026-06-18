@@ -22,6 +22,13 @@
       "when": 1781259416589,
       "tag": "0002_melted_blazing_skull",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1781679590051,
+      "tag": "0003_silent_thunderbolt_ross",
+      "breakpoints": true
     }
   ]
 }

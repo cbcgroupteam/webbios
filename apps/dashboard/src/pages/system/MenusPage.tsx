@@ -23,6 +23,7 @@ interface MenuItem {
   isVisible: boolean;
   isSystem?: boolean;
   isBeta?: boolean;
+  isCategory?: boolean;
   children?: MenuItem[];
 }
 
@@ -102,11 +103,7 @@ export default function MenusPage() {
     const result: FlatItem[] = [];
     const sorted = [...items].sort((a, b) => (a.position || 0) - (b.position || 0));
     for (const item of sorted) {
-      let isCategory = false;
-      if (item.translations) {
-        const transObj = typeof item.translations === 'string' ? JSON.parse(item.translations) : item.translations;
-        isCategory = transObj.isCategory || false;
-      }
+      const isCategory = item.isCategory === true || (item as any).isCategory === 1 || (item as any).is_category === true || (item as any).is_category === 1 || false;
       const hasChildren = (item.children && item.children.length > 0) || false;
       result.push({ id: item.id, parentId: item.parentId ?? parentId, depth, item, isCategory, hasChildren });
       if (item.children && item.children.length > 0) {
@@ -134,11 +131,11 @@ export default function MenusPage() {
     try {
       const payload = {
         label: formData.title,
-        translations: {
+        isCategory: formData.isCategory,
+        translations: JSON.stringify({
           en: formData.translationsEn,
-          vi: formData.translationsVi,
-          isCategory: formData.isCategory
-        },
+          vi: formData.translationsVi
+        }),
         path: formData.path || '',
         icon: formData.icon || null,
         parentId: formData.parentId || null,
@@ -189,12 +186,13 @@ export default function MenusPage() {
 
   const openEditModal = (m: MenuItem) => {
     setEditingId(m.id);
-    let en = '', vi = '', isCategory = false;
+    let en = '', vi = '', isCategory = m.isCategory === true || (m as any).isCategory === 1 || (m as any).is_category === true || (m as any).is_category === 1 || false;
     if (m.translations) {
-      const transObj = typeof m.translations === 'string' ? JSON.parse(m.translations) : m.translations;
-      en = transObj.en || '';
-      vi = transObj.vi || '';
-      isCategory = transObj.isCategory || false;
+      try {
+        const transObj = typeof m.translations === 'string' ? JSON.parse(m.translations) : m.translations;
+        en = transObj.en || '';
+        vi = transObj.vi || '';
+      } catch (e) {}
     }
     setFormData({
       title: m.label || (m as any).title || '',

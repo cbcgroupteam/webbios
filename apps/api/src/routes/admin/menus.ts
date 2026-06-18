@@ -33,10 +33,16 @@ menusApp.get('/', async (c) => {
   }
 
   // 2. Get all visible Menus
-  const allMenusResult = await db.select()
+  const allMenusResultRaw = await db.select()
     .from(wbMenus)
     .where(eq(wbMenus.isVisible, true))
     .orderBy(asc(wbMenus.position))
+
+  // Explicitly ensure isCategory is a boolean
+  const allMenusResult = allMenusResultRaw.map(m => ({
+    ...m,
+    isCategory: m.isCategory === true || m.isCategory === 1 || (m as any).is_category === 1 || (m as any).is_category === true
+  }))
 
   let allowedMenus = allMenusResult;
 

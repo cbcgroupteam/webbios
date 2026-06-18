@@ -8,7 +8,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "deploy:api": "turbo run deploy --filter=@webbios/api",
-    "deploy:dashboard": "turbo run build --filter=@webbios/dashboard && npx wrangler pages deploy apps/dashboard/dist --project-name webbios-dashboard --branch master",
+    "deploy:dashboard": "turbo run build --filter=@webbios/dashboard && npx wrangler pages deploy apps/dashboard/dist --project-name webbios-dashboard --branch main",
     "deploy:storefront": "turbo run deploy --filter=webbios-storefront-engine",
     "deploy:docs": "turbo run build --filter=docs && npx wrangler pages deploy apps/docs/dist --project-name webbios-docs --branch master"
   },

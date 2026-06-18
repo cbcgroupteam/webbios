@@ -130,8 +130,7 @@ export const DashboardLayout = ({ children }: LayoutProps) => {
     
     const localizedLabel = translationsObj?.[currentLang] || apiItem.label || apiItem.title;
 
-    // Determine if it's a category
-    const isCategory = translationsObj?.isCategory || false;
+    const isCategory = apiItem.isCategory === true || apiItem.isCategory === 1 || apiItem.is_category === true || apiItem.is_category === 1 || false;
 
     let iconEl = IconCmp ? <IconCmp size={16} strokeWidth={1.5} /> : null;
 

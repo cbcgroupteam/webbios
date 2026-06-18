@@ -185,6 +185,7 @@ export const wbMenus = sqliteTable('wb_menus', {
   position: integer('position').notNull().default(0),
   isVisible: integer('is_visible', { mode: 'boolean' }).notNull().default(true),
   isSystem: integer('is_system', { mode: 'boolean' }).notNull().default(false),
+  isCategory: integer('is_category', { mode: 'boolean' }).notNull().default(false),
   translations: text('translations', { mode: 'json' }).default(sql`'{}'`), // {"en":"Products","vi":"Sản phẩm"}
   createdAt: text('created_at').notNull().default(sql`(datetime('now'))`),
 }, (table) => {

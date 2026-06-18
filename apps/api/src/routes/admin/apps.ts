@@ -42,8 +42,8 @@ function isNewerVersion(v1: string, v2: string): boolean {
 function getShopId(c: any): string {
   // Try to determine shopId from the worker name or env
   // In production, the worker name follows convention: webbios-api-{shopId}
-  // For now we default to WBSHOP9050
-  return 'WBSHOP9050';
+  // For now we default to WEBBIOS_PLATFORM
+  return 'WEBBIOS_PLATFORM';
 }
 
 // Get installed apps (with update info)
@@ -198,9 +198,9 @@ app.post('/install', async (c) => {
     const cfAccountId = c.env.CLOUDFLARE_ACCOUNT_ID;
 
     // 1. Verify the zip exists in R2 (using R2 binding)
-    // Normalize version: strip 'v' to support standard format webbios-app-crm-1.0.4.zip
+    // Normalize version: strip 'v' to support standard format webbios-apps-crm-1.0.4.zip
     const versionNorm = version.startsWith('v') ? version.substring(1) : version;
-    const zipKey = `webbios-apps/${targetId}/webbios-app-${targetId}-${versionNorm}.zip`;
+    const zipKey = `webbios-apps/${targetId}/webbios-apps-${targetId}-${versionNorm}.zip`;
     let zipExists = false;
     try {
       const r2Obj = await c.env.STORAGE.head(zipKey);
@@ -217,7 +217,8 @@ app.post('/install', async (c) => {
     }
 
     // 2. Determine the Pages project name and workerUrl
-    const projectName = `wb-app-${targetId.toLowerCase()}-${shopId.toLowerCase()}`;
+    const safeShopId = shopId.toLowerCase().replace(/[^a-z0-9]/g, '-');
+    const projectName = `wb-app-${targetId.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${safeShopId}`;
     const workerUrl = `https://${projectName}.pages.dev`;
 
     // 3. Ensure Cloudflare Pages project exists
@@ -295,7 +296,8 @@ app.post('/install', async (c) => {
 
 // Helper: get standardized app metadata
 function getAppMetadata(targetId: string, version: string, shopId: string) {
-  const projectName = `wb-app-${targetId.toLowerCase()}-${shopId.toLowerCase()}`;
+  const safeShopId = shopId.toLowerCase().replace(/[^a-z0-9]/g, '-');
+  const projectName = `wb-app-${targetId.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${safeShopId}`;
   const workerUrl = `https://${projectName}.pages.dev`;
 
   const metadata: Record<string, { name: string; description: string; iconUrl: string; author: string }> = {
@@ -340,7 +342,8 @@ async function insertAppMenus(db: any, targetId: string) {
       appSlug: 'crm',
       position: 5,
       isSystem: false,
-      translations: '{"vi":"CRM","en":"CRM","isCategory":true}'
+      isCategory: true,
+      translations: '{"en":"CRM","en-US":"CRM","en-GB":"CRM","vi":"CRM","es":"CRM","fr":"CRM","de":"CRM","id":"CRM","th":"CRM","zh-CN":"CRM","zh-TW":"CRM","ja":"CRM","ko":"CRM"}'
     }).onConflictDoNothing();
 
     await db.insert(wbMenus).values({
@@ -352,7 +355,7 @@ async function insertAppMenus(db: any, targetId: string) {
       appSlug: 'crm',
       position: 1,
       isSystem: false,
-      translations: '{"vi":"Đơn hàng","en":"Orders"}'
+      translations: '{"en":"Orders","en-US":"Orders","en-GB":"Orders","vi":"Đơn hàng","es":"Pedidos","fr":"Commandes","de":"Bestellungen","id":"Pesanan","th":"คำสั่งซื้อ","zh-CN":"订单","zh-TW":"訂單","ja":"注文","ko":"주문"}'
     }).onConflictDoNothing();
 
     await db.insert(wbMenus).values({
@@ -364,7 +367,7 @@ async function insertAppMenus(db: any, targetId: string) {
       appSlug: 'crm',
       position: 2,
       isSystem: false,
-      translations: '{"vi":"Khách hàng","en":"Customers"}'
+      translations: '{"en":"Customers","en-US":"Customers","en-GB":"Customers","vi":"Khách hàng","es":"Clientes","fr":"Clients","de":"Kunden","id":"Pelanggan","th":"ลูกค้า","zh-CN":"客户","zh-TW":"客戶","ja":"顧客","ko":"고객"}'
     }).onConflictDoNothing();
 
     await db.insert(wbMenus).values({
@@ -376,7 +379,7 @@ async function insertAppMenus(db: any, targetId: string) {
       appSlug: 'crm',
       position: 7,
       isSystem: false,
-      translations: '{"vi":"Báo cáo","en":"Reports"}'
+      translations: '{"en":"Reports","en-US":"Reports","en-GB":"Reports","vi":"Báo cáo","es":"Informes","fr":"Rapports","de":"Berichte","id":"Laporan","th":"รายงาน","zh-CN":"报告","zh-TW":"報告","ja":"レポート","ko":"보고서"}'
     }).onConflictDoNothing();
 
     await db.insert(wbMenus).values({
@@ -388,7 +391,7 @@ async function insertAppMenus(db: any, targetId: string) {
       appSlug: 'crm',
       position: 3,
       isSystem: false,
-      translations: '{"vi":"Sản phẩm","en":"Products"}'
+      translations: '{"en":"Products","en-US":"Products","en-GB":"Products","vi":"Sản phẩm","es":"Productos","fr":"Produits","de":"Produkte","id":"Produk","th":"สินค้า","zh-CN":"产品","zh-TW":"產品","ja":"製品","ko":"제품"}'
     }).onConflictDoNothing();
 
     await db.insert(wbMenus).values({
@@ -400,7 +403,7 @@ async function insertAppMenus(db: any, targetId: string) {
       appSlug: 'crm',
       position: 4,
       isSystem: false,
-      translations: '{"vi":"Kho hàng","en":"Inventory"}'
+      translations: '{"en":"Inventory","en-US":"Inventory","en-GB":"Inventory","vi":"Kho hàng","es":"Inventario","fr":"Inventaire","de":"Inventar","id":"Inventaris","th":"สินค้าคงคลัง","zh-CN":"库存","zh-TW":"庫存","ja":"在庫","ko":"재고"}'
     }).onConflictDoNothing();
 
     await db.insert(wbMenus).values({
@@ -412,7 +415,7 @@ async function insertAppMenus(db: any, targetId: string) {
       appSlug: 'crm',
       position: 5,
       isSystem: false,
-      translations: '{"vi":"Nhập hàng","en":"Purchase Orders"}'
+      translations: '{"en":"Purchase Orders","en-US":"Purchase Orders","en-GB":"Purchase Orders","vi":"Nhập hàng","es":"Órdenes de Compra","fr":"Bons de Commande","de":"Bestellungen","id":"Pesanan Pembelian","th":"ใบสั่งซื้อ","zh-CN":"采购订单","zh-TW":"採購訂單","ja":"発注書","ko":"구매 주문"}'
     }).onConflictDoNothing();
 
     await db.insert(wbMenus).values({
@@ -424,7 +427,34 @@ async function insertAppMenus(db: any, targetId: string) {
       appSlug: 'crm',
       position: 6,
       isSystem: false,
-      translations: '{"vi":"Nhà cung cấp","en":"Suppliers"}'
+      translations: '{"en":"Suppliers","en-US":"Suppliers","en-GB":"Suppliers","vi":"Nhà cung cấp","es":"Proveedores","fr":"Fournisseurs","de":"Lieferanten","id":"Pemasok","th":"ซัพพลายเออร์","zh-CN":"供应商","zh-TW":"供應商","ja":"サプライヤー","ko":"공급업체"}'
+    }).onConflictDoNothing();
+  } else if (targetId === 'theme-manager') {
+    // Thêm Root menu cho Theme Manager
+    const themeMenuId = 'menu_app_theme_manager_root';
+    await db.insert(wbMenus).values({
+      id: themeMenuId,
+      label: 'Theme Manager',
+      icon: null,
+      path: '',
+      appSlug: 'theme-manager',
+      position: 6,
+      isSystem: false,
+      isCategory: true,
+      translations: '{"en":"Theme Manager","vi":"Quản lý Giao diện"}'
+    }).onConflictDoNothing();
+
+    await db.insert(wbMenus).values({
+      id: 'menu_app_theme_manager_themes',
+      parentId: themeMenuId,
+      label: 'Themes',
+      icon: 'Palette',
+      path: '/apps/theme-manager',
+      appSlug: 'theme-manager',
+      position: 1,
+      isSystem: false,
+      isCategory: false,
+      translations: '{"en":"Themes","vi":"Giao diện"}'
     }).onConflictDoNothing();
   }
 }
@@ -443,9 +473,9 @@ app.post('/update', async (c) => {
     const db = getDb(c.env.DB);
 
     // 1. Verify the new version zip exists in R2
-    // Normalize version: strip 'v' to support standard format webbios-app-crm-1.0.4.zip
+    // Normalize version: strip 'v' to support standard format webbios-apps-crm-1.0.4.zip
     const versionNorm = version.startsWith('v') ? version.substring(1) : version;
-    const zipKey = `webbios-apps/${targetId}/webbios-app-${targetId}-${versionNorm}.zip`;
+    const zipKey = `webbios-apps/${targetId}/webbios-apps-${targetId}-${versionNorm}.zip`;
     let zipExists = false;
     try {
       const r2Obj = await c.env.STORAGE.head(zipKey);

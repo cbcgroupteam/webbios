@@ -28,7 +28,6 @@ const SUB_DEVELOPERS = [
 ];
 
 const SUB_MORE = [
-  { label: 'About WebbiOS', href: '/about' },
   { label: 'Blog', href: '/blog' },
   { label: 'Changelog', href: '/changelog' },
   { label: 'Contact Us', href: '/contact' },

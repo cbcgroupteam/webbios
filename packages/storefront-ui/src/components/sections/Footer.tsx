@@ -11,7 +11,7 @@ export interface FooterProps {
   logoImage?: string;
   description?: string;
   columns?: FooterColumn[];
-  copyright?: string;
+  copyright?: React.ReactNode;
 }
 
 export function Footer({
@@ -19,7 +19,15 @@ export function Footer({
   logoImage,
   description,
   columns = [],
-  copyright = `© ${new Date().getFullYear()} WebbiOS. Open source under AGPLv3.`,
+  copyright = (
+    <>
+      © {new Date().getFullYear()} WebbiOS. Open source under AGPLv3. Proudly built with{' '}
+      <a href="/our-story" className="font-medium hover:text-foreground transition-colors">
+        WebbiOS
+      </a>
+      .
+    </>
+  ),
 }: FooterProps) {
   return (
     <footer className="border-t border-border/40 bg-background pt-16 pb-8">

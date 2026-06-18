@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../App';
 import { User, Mail, Shield, Save } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { webbios } from '../api';
+import { webbios, resolveApiUrl } from '../api';
 
 const AccountPage = () => {
   const { user, refreshUser } = useAuth();
@@ -22,16 +22,18 @@ const AccountPage = () => {
 
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [cdnUrl, setCdnUrl] = useState('https://cdn.webbios.dev');
+  const [cdnUrl, setCdnUrl] = useState('');
 
   useEffect(() => {
     webbios.settings.getSettings().then(settings => {
-      if (settings['system.cdn_url']) {
-        let url = settings['system.cdn_url'];
-        // remove quotes if stringified
-        if (url.startsWith('"')) url = JSON.parse(url);
-        setCdnUrl(url);
+      let url = settings['system.cdn_url'] || 'https://cdn.webbios.dev';
+      if (url.startsWith('"')) url = JSON.parse(url);
+      
+      // Fallback: If no real CDN is configured, use the Core API to serve media
+      if (url === 'https://cdn.webbios.dev') {
+        url = resolveApiUrl().replace('/v1/admin', '/v1/public');
       }
+      setCdnUrl(url);
     }).catch(console.error);
   }, []);
 

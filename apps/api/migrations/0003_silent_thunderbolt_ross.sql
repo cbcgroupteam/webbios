@@ -1,0 +1,1 @@
+ALTER TABLE `wb_menus` ADD `is_category` integer DEFAULT false NOT NULL;

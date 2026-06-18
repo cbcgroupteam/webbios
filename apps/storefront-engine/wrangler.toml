@@ -8,8 +8,8 @@ binding = "ASSETS"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "webbios_core_db"
-database_id = "a8be0324-8183-42ce-884c-527ddaeb5978"
+database_name = "webbios_db"
+database_id = "fd1e1975-5699-4587-a065-1533c3fafa48"
 
 [[kv_namespaces]]
 binding = "CACHE_KV"

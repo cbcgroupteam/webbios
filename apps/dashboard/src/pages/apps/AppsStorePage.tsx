@@ -1,3 +1,4 @@
+import * as LucideIcons from 'lucide-react';
 import { Search, Download, Star, CheckCircle, ArrowUpCircle, RefreshCw, XCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect, useCallback, useRef } from 'react';
@@ -17,7 +18,7 @@ function isNewerVersion(v1: string, v2: string): boolean {
 }
 
 const AppsStorePage = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [storeApps, setStoreApps] = useState<any[]>([]);
   const [installedApps, setInstalledApps] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -25,6 +26,16 @@ const AppsStorePage = () => {
   const [updatingAppId, setUpdatingAppId] = useState<string | null>(null);
   const [activeJobs, setActiveJobs] = useState<Record<string, { status: string, progress: number, isError: boolean }>>({});
   const intervalRefs = useRef<Record<string, ReturnType<typeof setInterval>>>({});
+
+  const getLocalizedText = (text: string) => {
+    if (!text) return '';
+    try {
+      const parsed = JSON.parse(text);
+      return parsed[i18n.resolvedLanguage || 'en'] || parsed['en'] || text;
+    } catch {
+      return text;
+    }
+  };
 
   const mapStatusToProgress = (status: string): { label: string; progress: number } => {
     switch (status) {
@@ -94,7 +105,7 @@ const AppsStorePage = () => {
     setInstallingAppId(app.id);
     try {
       const res = await webbios.client.post('/apps/install', {
-        shopId: 'WBSHOP9050', // Demo Shop ID
+        shopId: 'WEBBIOS_PLATFORM', // Demo Shop ID
         version: app.latestVersion || app.version || '1.0.0',
         targetId: app.slug
       });
@@ -107,9 +118,31 @@ const AppsStorePage = () => {
           }));
           startPolling(app.id, res.jobId);
         } else {
-          alert(`${t('apps.store.installSent', 'Install request sent: ')} ${app.name}`);
-          setInstallingAppId(null);
-          window.location.reload();
+          // Simulate progress for local fast installation
+          setActiveJobs(prev => ({
+            ...prev,
+            [app.id]: { status: t('webbios.updates.progress.statusInit', 'Initializing process...'), progress: 5, isError: false }
+          }));
+          let simProgress = 10;
+          const simInterval = setInterval(() => {
+            simProgress += 25;
+            if (simProgress >= 100) {
+              clearInterval(simInterval);
+              setActiveJobs(prev => ({
+                ...prev,
+                [app.id]: { status: t('apps.store.installComplete', 'Completed'), progress: 100, isError: false }
+              }));
+              setTimeout(() => {
+                setInstallingAppId(null);
+                window.location.reload();
+              }, 500);
+            } else {
+              setActiveJobs(prev => ({
+                ...prev,
+                [app.id]: { status: `${t('apps.store.installing', 'Installing...')} ${simProgress}%`, progress: simProgress, isError: false }
+              }));
+            }
+          }, 300);
         }
       } else {
         alert(t('apps.store.installFailed', 'Install failed: ') + res.error);
@@ -128,7 +161,7 @@ const AppsStorePage = () => {
     setUpdatingAppId(app.id);
     try {
       const res = await webbios.client.post('/apps/update', {
-        shopId: 'WBSHOP9050',
+        shopId: 'WEBBIOS_PLATFORM',
         version: app.latestVersion || app.version,
         targetId: app.slug
       });
@@ -141,9 +174,31 @@ const AppsStorePage = () => {
           }));
           startPolling(app.id, res.jobId);
         } else {
-          alert(`${t('apps.installed.updateSent', 'Update request sent')} ${app.name} -> v${app.latestVersion || app.version}`);
-          setUpdatingAppId(null);
-          window.location.reload();
+          // Simulate progress for local fast update
+          setActiveJobs(prev => ({
+            ...prev,
+            [app.id]: { status: t('webbios.updates.progress.statusInit', 'Initializing process...'), progress: 5, isError: false }
+          }));
+          let simProgress = 10;
+          const simInterval = setInterval(() => {
+            simProgress += 25;
+            if (simProgress >= 100) {
+              clearInterval(simInterval);
+              setActiveJobs(prev => ({
+                ...prev,
+                [app.id]: { status: t('apps.store.updateComplete', 'Completed'), progress: 100, isError: false }
+              }));
+              setTimeout(() => {
+                setUpdatingAppId(null);
+                window.location.reload();
+              }, 500);
+            } else {
+              setActiveJobs(prev => ({
+                ...prev,
+                [app.id]: { status: `${t('apps.store.updating', 'Updating...')} ${simProgress}%`, progress: simProgress, isError: false }
+              }));
+            }
+          }, 300);
         }
       } else {
         alert(t('apps.installed.updateFailed', 'Update failed: ') + (res.error || 'Unknown error'));
@@ -264,13 +319,18 @@ const AppsStorePage = () => {
               
               return (
                 <div key={app.id} className="bg-surface border border-cf-border rounded-xl p-5 hover:border-blue-300 hover:shadow-lg transition-all group cursor-pointer flex gap-5">
-                  <div className="w-16 h-16 bg-gradient-to-br from-gray-50 to-gray-100 flex-shrink-0 text-3xl flex items-center justify-center rounded-xl border border-gray-200 group-hover:scale-105 transition-transform">
-                    {app.icon}
+                  <div className="w-12 h-12 bg-gray-50 text-2xl flex items-center justify-center rounded-lg border border-cf-border text-gray-500 flex-shrink-0">
+                    {(() => {
+                      const IconComponent = app.icon ? (LucideIcons as any)[app.icon] : (LucideIcons as any)['Box'];
+                      return IconComponent ? <IconComponent size={24} /> : null;
+                    })()}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-start mb-1">
-                      <h3 className="text-base font-semibold text-cf-text truncate pr-2">{app.name}</h3>
-                      <span className="text-sm font-medium text-green-600 flex-shrink-0">{app.price}</span>
+                      <h3 className="text-base font-semibold text-cf-text truncate pr-2">{getLocalizedText(app.name)}</h3>
+                      <span className="text-sm font-medium text-cf-text flex items-center">
+                        {app.price === 0 ? t('apps.store.free', 'Free') : app.price}
+                      </span>
                     </div>
                     <div className="flex items-center space-x-3 text-xs text-cf-gray-text mb-2">
                       <span>{app.category}</span>
@@ -282,7 +342,7 @@ const AppsStorePage = () => {
                       </div>
                     </div>
                     <p className="text-sm text-gray-600 line-clamp-2 mb-4">
-                      {app.description}
+                      {getLocalizedText(app.description)}
                     </p>
                     
                     {/* Conditional button based on install status */}
