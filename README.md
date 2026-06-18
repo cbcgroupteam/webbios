@@ -27,7 +27,7 @@
 
 ## 🚀 Overview
 
-**Born from the real-world infrastructure challenges at CBC GROUP, we struggled to find a unified platform to power our diverse product ecosystem—from our corporate homepage cbcgroup.vn and e-commerce storefront coolmom.vn, to mobile app backends, internal CRMs, marketing automation, and complex ERP systems. Our core criteria were extremely strict: absolute performance, infinite scalability, maximum security, and full ownership of source code and data, all while keeping infrastructure costs to an absolute minimum—ideally zero.**
+**Born from the real-world infrastructure challenges at CBC GROUP, we struggled to find a unified platform to power our diverse product ecosystem — from our corporate homepage cbcgroup.vn and e-commerce storefront coolmom.vn, to mobile app backends, internal CRMs, marketing automation, and complex ERP systems. Our core criteria were extremely strict: absolute performance, infinite scalability, maximum security, and full ownership of source code and data, all while keeping infrastructure costs to an absolute minimum — ideally zero.**
 
 We evaluated a wide range of leading commercial SaaS and open-source solutions worldwide. The results were a true dilemma: solutions powerful enough to meet our needs were prohibitively expensive, while affordable platforms lacked essential features and scalability.
 
@@ -35,7 +35,7 @@ On the other hand, building a completely new platform from scratch would require
 
 **And thus, the WebbiOS platform was born.**
 
-Over the years, our core technology system—built 100% on Cloudflare's infrastructure—has run our business smoothly and relentlessly. WebbiOS completely liberated us from the burden of server management, optimized our budget, and most importantly: allowed our team to focus 100% of their dedication on perfecting our products and serving our customers.
+Over the years, our core technology system — built 100% on Cloudflare's infrastructure — has run our business smoothly and relentlessly. WebbiOS completely liberated us from the burden of server management, optimized our budget, and most importantly: allowed our team to focus 100% of their dedication on perfecting our products and serving our customers.
 
 Realizing that CBC GROUP's challenge is a shared "pain point" for millions of other businesses globally, we decided to **open-source WebbiOS**. Our goal is to share this power and empower the business and developer community, enabling anyone to build heavy-duty enterprise systems without worrying about infrastructure barriers.
 
