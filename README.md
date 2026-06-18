@@ -27,11 +27,17 @@
 
 ## 🚀 Overview
 
-**WebbiOS started as an internal core engine to solve real business infrastructure pain points for CBC GROUP.** We needed a unified ecosystem to build diverse products—from corporate homepages and cross-border storefronts to internal CRMs, marketing automation, and complex ERP systems.
+**Born from the real-world infrastructure challenges at CBC GROUP, we struggled to find a unified platform to power our diverse product ecosystem—from our corporate homepage cbcgroup.vn and e-commerce storefront coolmom.vn, to mobile app backends, internal CRMs, marketing automation, and complex ERP systems. Our core criteria were extremely strict: absolute performance, infinite scalability, maximum security, and full ownership of source code and data, all while keeping infrastructure costs to an absolute minimum—ideally zero.**
 
-After witnessing the incredible stability, absolute performance, and zero infrastructure costs it delivered, we realized this was too powerful to keep to ourselves. We decided to release the core platform as open-source under the AGPLv3 license to empower the global developer community.
+We evaluated a wide range of leading commercial SaaS and open-source solutions worldwide. The results were a true dilemma: solutions powerful enough to meet our needs were prohibitively expensive, while affordable platforms lacked essential features and scalability.
 
-Today, **WebbiOS** is a Next-Gen Business Growth Platform. An open-source, edge-native operating system built entirely on Cloudflare to rapidly develop and scale high-performance business applications and enterprise systems with zero infrastructure management.
+On the other hand, building a completely new platform from scratch would require a massive investment of time, effort, and financial resources. At that critical juncture, we discovered Cloudflare and realized that their breakthrough ecosystem (Workers, D1, R2, KV, Cache API) was the perfect missing piece to thoroughly solve our most demanding requirements.
+
+**And thus, the WebbiOS platform was born.**
+
+Over the years, our core technology system—built 100% on Cloudflare's infrastructure—has run our business smoothly and relentlessly. WebbiOS completely liberated us from the burden of server management, optimized our budget, and most importantly: allowed our team to focus 100% of their dedication on perfecting our products and serving our customers.
+
+Realizing that CBC GROUP's challenge is a shared "pain point" for millions of other businesses globally, we decided to **open-source WebbiOS**. Our goal is to share this power and empower the business and developer community, enabling anyone to build heavy-duty enterprise systems without worrying about infrastructure barriers.
 
 ## 🏗️ Architecture
 
