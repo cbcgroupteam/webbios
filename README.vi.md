@@ -5,7 +5,7 @@
     <img alt="WebbiOS Logo" src="./.github/assets/logo-light.png" height="80" style="margin-bottom: 20px;">
   </picture>
   <p><strong>WebbiOS | Nền tảng Tăng trưởng Doanh nghiệp Thế hệ Mới</strong></p>
-  <p>Xây dựng website, ứng dụng và hệ thống quản lý trên mạng lưới biên (edge network) của Cloudflare. Mã nguồn mở. Miễn phí mãi mãi. Triển khai trong vài giây.</p>
+  <p>Xây dựng website, ứng dụng mobile và hệ thống quản lý nội bộ trên nền tảng Cloudflare. Mã nguồn mở. Miễn phí mãi mãi. Triển khai trong vài giây.</p>
 
   *Đọc tài liệu bằng ngôn ngữ khác: [English](README.md).*
 
@@ -27,11 +27,17 @@
 
 ## 🚀 Tổng quan
 
-**WebbiOS bắt đầu như một hệ thống cốt lõi nội bộ nhằm giải quyết những nỗi đau thực tế về hạ tầng doanh nghiệp cho CBC GROUP.** Chúng tôi cần một hệ sinh thái thống nhất để xây dựng nhiều sản phẩm đa dạng—từ trang chủ công ty, các cửa hàng bán lẻ xuyên biên giới, cho đến CRM nội bộ, tự động hóa tiếp thị và các hệ thống ERP phức tạp.
+**Xuất phát từ chính bài toán thực tế tại CBC GROUP, chúng tôi từng trăn trở đi tìm một nền tảng thống nhất để vận hành hệ sinh thái sản phẩm đa dạng của mình — từ trang chủ công ty cbcgroup.vn, nền tảng thương mại điện tử coolmom.vn, backend cho mobile app, cho đến hệ thống CRM nội bộ, tự động hóa tiếp thị (Marketing Automation) và hệ thống ERP phức tạp. Tiêu chí cốt lõi của chúng tôi rất khắt khe: Hiệu năng tuyệt đối, khả năng mở rộng vô hạn, bảo mật tối đa, tự chủ hoàn toàn mã nguồn và dữ liệu, nhưng chi phí hạ tầng phải ở mức tối thiểu — thậm chí bằng 0.**
 
-Sau khi chứng kiến sự ổn định đáng kinh ngạc, hiệu suất tuyệt đối và chi phí quản lý hạ tầng bằng 0 mà nó mang lại, chúng tôi nhận ra rằng hệ thống này quá mạnh mẽ để chỉ giữ cho riêng mình. Chúng tôi quyết định phát hành nền tảng lõi này dưới dạng mã nguồn mở với giấy phép AGPLv3 nhằm trao quyền cho cộng đồng nhà phát triển toàn cầu.
+Chúng tôi đã khảo sát hàng loạt các giải pháp SaaS thương mại lẫn mã nguồn mở (open-source) hàng đầu trên thế giới. Kết quả thật sự bế tắc: Giải pháp đủ mạnh để đáp ứng nhu cầu thì chi phí quá đắt đỏ, trong khi những nền tảng giá rẻ lại thiếu hụt tính năng và không thể mở rộng.
 
-Hôm nay, **WebbiOS** là một Nền tảng Tăng trưởng Doanh nghiệp Thế hệ Mới. Một hệ điều hành mã nguồn mở, edge-native được xây dựng hoàn toàn trên Cloudflare để phát triển, triển khai và mở rộng nhanh chóng các ứng dụng doanh nghiệp hiệu suất cao với mức quản lý hạ tầng bằng 0.
+Mặt khác, việc tự xây dựng một hệ thống nền tảng hoàn toàn mới đòi hỏi nguồn lực khổng lồ về thời gian, công sức và tài chính. Giữa lúc đó, chúng tôi tìm đến Cloudflare và nhận ra rằng: Hệ sinh thái đột phá của Cloudflare (Workers, D1, R2, KV, Cache API) chính là mảnh ghép hoàn hảo để giải quyết triệt để mọi yêu cầu khắt khe nhất.
+
+**Và nền tảng WebbiOS đã ra đời từ bối cảnh đó.**
+
+Trong những năm qua, hệ thống công nghệ cốt lõi của chúng tôi — được xây dựng 100% trên hạ tầng Cloudflare — đã vận hành doanh nghiệp một cách trơn tru và bền bỉ. WebbiOS giúp chúng tôi giải phóng hoàn toàn gánh nặng quản trị máy chủ, tối ưu hóa ngân sách, và quan trọng nhất: Cho phép đội ngũ tập trung 100% tâm huyết vào việc hoàn thiện sản phẩm và phục vụ khách hàng.
+
+Nhận ra rằng bài toán của CBC GROUP cũng chính là "nỗi đau" chung của hàng triệu doanh nghiệp khác trên toàn cầu, chúng tôi quyết định **open-source WebbiOS**. Mục tiêu của chúng tôi là chia sẻ sức mạnh này và trao quyền cho cộng đồng doanh nghiệp & nhà phát triển, giúp bất kỳ ai cũng có thể kiến tạo nên những hệ thống hạng nặng mà không phải bận tâm về rào cản hạ tầng.
 
 ## 🏗️ Kiến trúc
 
@@ -103,7 +109,7 @@ WebbiOS được cấu trúc dưới dạng **Monorepo** (sử dụng `pnpm` và
 
 1. **Clone repository:**
    ```bash
-   git clone https://github.com/chieunt/webbios.git
+   git clone https://github.com/cbcgroupteam/webbios.git
    cd webbios
    ```
 
@@ -124,7 +130,7 @@ Vui lòng xem [Tài liệu (Documentation)](https://docs.webbios.dev/docs) để
 
 ## 🤝 Đóng góp
 
-Chúng tôi hoan nghênh mọi đóng góp từ cộng đồng! Cho dù bạn muốn sửa lỗi, cải thiện tài liệu, hay xây dựng tính năng mới, hãy kiểm tra [GitHub Issues](https://github.com/chieunt/webbios/issues) hoặc tạo một Pull Request.
+Chúng tôi hoan nghênh mọi đóng góp từ cộng đồng! Cho dù bạn muốn sửa lỗi, cải thiện tài liệu, hay xây dựng tính năng mới, hãy kiểm tra [GitHub Issues](https://github.com/cbcgroupteam/webbios/issues) hoặc tạo một Pull Request.
 
 1. Fork dự án
 2. Tạo một nhánh mới (`git checkout -b feature/amazing-feature`)
